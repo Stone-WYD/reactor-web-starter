@@ -7,3 +7,7 @@ spring:
     username: ssfw
     password: njxnet1234
     driverClassName: com.mysql.cj.jdbc.Driver
+
+mynetty:
+  server:
+    port: 8888

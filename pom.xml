@@ -108,10 +108,11 @@
             <version>${cage.version}</version>
         </dependency>
 
-        <!-- WebClient的使用 -->
+        <!-- netty -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.39.Final</version>
         </dependency>
 
         <!-- Knife4j：swagger增强版 -->

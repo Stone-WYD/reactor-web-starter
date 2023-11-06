@@ -1,6 +1,8 @@
-package com.wyd.reactor_web.config.web.server;
+package com.wyd.reactor_web.server;
 
+import com.wyd.reactor_web.handler.HttpServerHandlerInitial;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -10,11 +12,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.WebServerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * @program: spring-wyd
@@ -25,6 +30,12 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 public class NettyServer implements WebServerFactory {
+
+    @Value("${mynetty.server.port}")
+    private Integer port;
+
+    @Resource
+    private HttpServerHandlerInitial httpServerHandlerInitial;
 
     @PostConstruct
     public void init(){
@@ -42,24 +53,9 @@ public class NettyServer implements WebServerFactory {
                         @Override
                         protected void initChannel(NioSocketChannel channel) {
                             channel.pipeline().addLast(new LoggingHandler());
-                            channel.pipeline().addLast(new HttpServerCodec());
-                            channel.pipeline().addLast(new SimpleChannelInboundHandler<DefaultHttpRequest>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext ctx, DefaultHttpRequest msg) {
-                                    log.debug("{}", msg.uri());
-                                    QueryStringDecoder decoder = new QueryStringDecoder(msg.uri());
-
-                                    DefaultFullHttpResponse response = new DefaultFullHttpResponse(msg.protocolVersion(), HttpResponseStatus.OK);
-                                    byte[] bytes = ("<h1>hello,world! port:8888" + "</h1>").getBytes();
-                                    response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html");
-                                    response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, bytes.length);
-                                    response.content().writeBytes(bytes);
-                                    ctx.writeAndFlush(response);
-                                }
-                            });
-                        }
+                            channel.pipeline().addLast(httpServerHandlerInitial);}
                     });
-            ChannelFuture channelFuture = bootstrap.bind(8888).sync();
+            ChannelFuture channelFuture = bootstrap.bind(port).sync();
             channelFuture.channel().closeFuture().sync();
         }catch ( Exception e){
             log.error("Server error:" , e);
