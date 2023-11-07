@@ -1,5 +1,7 @@
 package com.wyd.reactor_web.handler;
 
+import com.wyd.reactor_web.common.AjaxResult;
+import com.wyd.reactor_web.common.AjaxResultUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -38,10 +40,12 @@ public class HttpServerBusinessHandler extends ChannelInboundHandlerAdapter {
                 log.info("请求uri:{},请求content:{},请求method:{}", uri, content, method);
 
                 //响应
-                String responseMsg = "Hello World";
+                String responseMsg = "{\n" +
+                        "    \"555\":\"222\"\n" +
+                        "}";
                 FullHttpResponse response = new DefaultFullHttpResponse(
-                        HttpVersion.HTTP_1_1,HttpResponseStatus.OK,
-                        Unpooled.copiedBuffer(responseMsg,CharsetUtil.UTF_8)
+                        HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
+                        Unpooled.copiedBuffer(responseMsg, CharsetUtil.UTF_8)
                 );
                 response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain;charset=UTF-8");
                 ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
