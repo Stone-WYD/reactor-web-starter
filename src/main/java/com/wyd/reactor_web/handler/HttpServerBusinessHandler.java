@@ -4,6 +4,7 @@ import com.wyd.reactor_web.common.AjaxResult;
 import com.wyd.reactor_web.common.AjaxResultUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @author: Stone
  * @create: 2023-11-06 11:02
  **/
+@ChannelHandler.Sharable
 @Component
 @Slf4j
 public class HttpServerBusinessHandler extends ChannelInboundHandlerAdapter {
@@ -40,15 +42,7 @@ public class HttpServerBusinessHandler extends ChannelInboundHandlerAdapter {
                 log.info("请求uri:{},请求content:{},请求method:{}", uri, content, method);
 
                 //响应
-                String responseMsg = "{\n" +
-                        "    \"555\":\"222\"\n" +
-                        "}";
-                FullHttpResponse response = new DefaultFullHttpResponse(
-                        HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
-                        Unpooled.copiedBuffer(responseMsg, CharsetUtil.UTF_8)
-                );
-                response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain;charset=UTF-8");
-                ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+                ctx.write(AjaxResultUtil.getTrueAjaxResult(new AjaxResult<>()));
             } finally {
                 httpRequest.release();
             }

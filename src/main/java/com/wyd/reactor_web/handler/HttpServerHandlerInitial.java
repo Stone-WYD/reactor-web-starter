@@ -22,6 +22,9 @@ public class HttpServerHandlerInitial extends ChannelInitializer<SocketChannel> 
     @Resource
     private HttpServerBusinessHandler businessHandler;
 
+    @Resource
+    private ResultHandler resultHandler;
+
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
 
@@ -33,8 +36,9 @@ public class HttpServerHandlerInitial extends ChannelInitializer<SocketChannel> 
         pipeline.addLast("aggregator", new HttpObjectAggregator(10 * 1024 * 1024));
         //响应报文压缩
         pipeline.addLast("compress", new HttpContentCompressor());
+        // 结果处理
+        pipeline.addLast("resultHandler", resultHandler);
         //业务处理handler
         pipeline.addLast("serverBusinessHandler", businessHandler);
-
     }
 }
