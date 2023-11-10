@@ -24,7 +24,7 @@ public class MyMethodHandler {
         this.target = target;
     }
 
-    Object invoke(String urlPath, Object[] args) {
+    public Object invoke(String urlPath, Object[] args) {
         if (StrUtil.isBlank(urlPath)) {
             throw new RuntimeException("MyMethodHandler: 请传入有效url...");
         }
