@@ -1,7 +1,6 @@
 package com.wyd.reactor_web.asm;
 
 import cn.hutool.core.util.StrUtil;
-import com.wyd.reactor_web.asm.target.demo.MyInvoke;
 
 import java.util.Set;
 
@@ -17,12 +16,15 @@ public class MyMethodHandler {
 
     private final Set<String> pathSet;
 
-    public MyMethodHandler(MyInvoke myInvoke, Set<String> pathSet) {
+    private Object target;
+
+    public MyMethodHandler(MyInvoke myInvoke, Set<String> pathSet, Object target) {
         this.myInvoke = myInvoke;
         this.pathSet = pathSet;
+        this.target = target;
     }
 
-    Object invoke(String urlPath, Object target, Object[] args) {
+    Object invoke(String urlPath, Object[] args) {
         if (StrUtil.isBlank(urlPath)) {
             throw new RuntimeException("MyMethodHandler: 请传入有效url...");
         }
@@ -30,5 +32,9 @@ public class MyMethodHandler {
             return myInvoke.invoke(urlPath, target, args);
         }
         return null;
+    }
+
+    public interface MyInvoke {
+        Object invoke(String urlPath, Object target, Object[] args);
     }
 }
