@@ -5,20 +5,18 @@
  * @create: 2023-11-10 18:16
  **/
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.wyd.reactor_web.annotation.MyRequestMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-@RequestMapping("/asmTest")
+@Slf4j
+@MyRequestMapping(value = "/asmTest")
 public class Controller1 {
 
-    private static final Logger log = LoggerFactory.getLogger(Controller1.class);
 
-
-    @PostMapping("/test2")
+    @MyRequestMapping(value = "/test2")
     public ModelAndView test2(@RequestParam("name") String name) {
         log.debug("test2({})", name);
         System.out.println(name);

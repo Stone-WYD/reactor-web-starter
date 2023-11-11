@@ -6,6 +6,7 @@ import com.wyd.reactor_web.asm.interfaces.MyMethodHandlerFactory;
 import org.springframework.asm.Opcodes;
 import org.springframework.core.annotation.AnnotationUtils;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,9 +30,10 @@ public class BaseMyMethodHandlerFactory extends ClassLoader  implements MyMethod
 
     public void addMyMethodHandler(Object target, Class<?> invokeClass) throws Exception {
         // 获取需要动态生成类的类名
-        String generateClassName = "com/wyd/reactor_web/asm/tmp/MyInvoke" + increNameNum.addAndGet(1);
+        String generateClassName = "MyInvoke" + increNameNum.addAndGet(1);
         // 获取动态类字节码
         byte[] code = GenerateClassUtil.generate(generateClassName, invokeClass);
+
         // 生成动态类的实例对象
         Class<?> aClass = defineClass(generateClassName, code, 0, code.length);
         MyMethodHandler.MyInvoke myInvoke = (MyMethodHandler.MyInvoke) aClass.getConstructor().newInstance();
