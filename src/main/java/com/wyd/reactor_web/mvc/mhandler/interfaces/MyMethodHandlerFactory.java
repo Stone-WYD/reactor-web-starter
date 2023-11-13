@@ -1,6 +1,6 @@
-package com.wyd.reactor_web.asm.interfaces;
+package com.wyd.reactor_web.mvc.mhandler.interfaces;
 
-import com.wyd.reactor_web.asm.MyMethodHandler;
+import com.wyd.reactor_web.mvc.mhandler.MyMethodHandler;
 
 import java.util.List;
 

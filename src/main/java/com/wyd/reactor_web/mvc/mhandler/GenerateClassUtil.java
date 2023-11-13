@@ -1,4 +1,4 @@
-package com.wyd.reactor_web.asm;
+package com.wyd.reactor_web.mvc.mhandler;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
 import org.springframework.asm.ClassWriter;
@@ -38,7 +38,7 @@ public class GenerateClassUtil {
 
     private static byte[] doGenerate(Class<?> targetClass, String className, Map<String, Method> urlToMethodMap) {
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null,"java/lang/Object", new String[]{"com/wyd/reactor_web/asm/MyMethodHandler$MyInvoke"});
+        cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null,"java/lang/Object", new String[]{"com/wyd/reactor_web/mvc/mhandler/MyMethodHandler$MyInvoke"});
         Iterator<Map.Entry<String, Method>> iterator = urlToMethodMap.entrySet().iterator();
 
         // 添加构造函数

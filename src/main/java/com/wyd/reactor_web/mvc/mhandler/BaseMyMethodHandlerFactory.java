@@ -1,12 +1,11 @@
-package com.wyd.reactor_web.asm;
+package com.wyd.reactor_web.mvc.mhandler;
 
 import cn.hutool.core.util.StrUtil;
 import com.wyd.reactor_web.annotation.MyRequestMapping;
-import com.wyd.reactor_web.asm.interfaces.MyMethodHandlerFactory;
+import com.wyd.reactor_web.mvc.mhandler.interfaces.MyMethodHandlerFactory;
 import org.springframework.asm.Opcodes;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author: Stone
  * @create: 2023-11-10 16:26
  **/
-public class BaseMyMethodHandlerFactory extends ClassLoader  implements MyMethodHandlerFactory, Opcodes {
+public abstract class BaseMyMethodHandlerFactory extends ClassLoader  implements MyMethodHandlerFactory, Opcodes {
 
     private List<MyMethodHandler> myMethodHandlers = new ArrayList<>();
 
@@ -28,12 +27,13 @@ public class BaseMyMethodHandlerFactory extends ClassLoader  implements MyMethod
         return myMethodHandlers;
     }
 
-    public void addMyMethodHandler(Object target, Class<?> invokeClass) throws Exception {
+    protected abstract void initMyMethodHandlers();
+
+    protected void addMyMethodHandler(Object target, Class<?> invokeClass) throws Exception {
         // 获取需要动态生成类的类名
         String generateClassName = "MyInvoke" + increNameNum.addAndGet(1);
         // 获取动态类字节码
         byte[] code = GenerateClassUtil.generate(generateClassName, invokeClass);
-
         // 生成动态类的实例对象
         Class<?> aClass = defineClass(generateClassName, code, 0, code.length);
         MyMethodHandler.MyInvoke myInvoke = (MyMethodHandler.MyInvoke) aClass.getConstructor().newInstance();
