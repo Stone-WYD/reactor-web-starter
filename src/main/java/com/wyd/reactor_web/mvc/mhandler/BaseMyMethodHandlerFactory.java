@@ -1,18 +1,19 @@
 package com.wyd.reactor_web.mvc.mhandler;
 
-import cn.hutool.core.util.StrUtil;
-import com.wyd.reactor_web.annotation.MyRequestMapping;
+import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
 import com.wyd.reactor_web.mvc.mhandler.interfaces.MyMethodHandlerFactory;
+import com.wyd.reactor_web.mvc.mhandler.assist.GenerateClassUtil;
 import org.springframework.asm.Opcodes;
-import org.springframework.core.annotation.AnnotationUtils;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.wyd.reactor_web.mvc.util.MapUtil.getPathSet;
 
 /**
  * @program: reactor_web
- * @description: 获取方法调用类
+ * @description: 获取方法调用类，定义为抽象类，避免直接创建该类
  * @author: Stone
  * @create: 2023-11-10 16:26
  **/
@@ -22,12 +23,12 @@ public abstract class BaseMyMethodHandlerFactory extends ClassLoader  implements
 
     private AtomicInteger increNameNum = new AtomicInteger(0);
 
+    abstract void init();
+
     @Override
     public List<MyMethodHandler> getMyMethodHandlers() {
         return myMethodHandlers;
     }
-
-    protected abstract void initMyMethodHandlers();
 
     protected void addMyMethodHandler(Object target, Class<?> invokeClass) throws Exception {
         // 获取需要动态生成类的类名
@@ -43,29 +44,4 @@ public abstract class BaseMyMethodHandlerFactory extends ClassLoader  implements
         myMethodHandlers.add(myMethodHandler);
     }
 
-    private Set<String> getPathSet(Class<?> targetClass) {
-        Set<String> result = new HashSet<>();
-        MyRequestMapping classPathMapping = AnnotationUtils.findAnnotation(targetClass, MyRequestMapping.class);
-        String classPath = "";
-        // 获取类上的路径信息
-        if (classPathMapping != null) {
-            classPath = classPathMapping.value();
-            if (!StrUtil.isBlank(classPath)) {
-                classPath = classPath.startsWith("/") ? classPathMapping.value() : '/' + classPath ;
-            }
-        }
-        // 获取方法上的路径信息
-        Method[] declaredMethods = targetClass.getMethods();
-        for (Method method : declaredMethods) {
-            MyRequestMapping methodPathMapping = AnnotationUtils.findAnnotation(method, MyRequestMapping.class);
-            if (methodPathMapping != null) {
-                String methodPath = methodPathMapping.value();
-                if (!StrUtil.isBlank(methodPath)) {
-                    methodPath = methodPath.startsWith("/") ? methodPath : '/' + methodPath;
-                }
-                result.add(classPath + methodPath);
-            }
-        }
-        return result;
-    }
 }
