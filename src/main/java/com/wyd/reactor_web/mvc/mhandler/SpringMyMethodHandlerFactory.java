@@ -1,9 +1,18 @@
 package com.wyd.reactor_web.mvc.mhandler;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.wyd.reactor_web.annotation.MyRequestMapping;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static com.wyd.reactor_web.mvc.util.MapUtil.getPathSet;
 
 /**
  * @program: reactor_web
@@ -16,6 +25,9 @@ import org.springframework.stereotype.Component;
 @Order(value = Integer.MIN_VALUE)
 public class SpringMyMethodHandlerFactory extends BaseMyMethodHandlerFactory implements InstantiationAwareBeanPostProcessor {
 
+    private Set<String> allPathSet = new HashSet<>();
+
+    private Map<String, Class> beanClassMap = new HashMap<>();
 
     /**
     * @Description: 实例化单例之前进行的操作，为了尽早校验 MyRequestMapping 上的 url 是否重复
@@ -24,7 +36,22 @@ public class SpringMyMethodHandlerFactory extends BaseMyMethodHandlerFactory imp
     */
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        return InstantiationAwareBeanPostProcessor.super.postProcessBeforeInstantiation(beanClass, beanName);
+        Set<String> pathSet = getPathSet(beanClass);
+        // 为空不做处理
+        if (CollectionUtil.isEmpty(pathSet)) {
+            return null;
+        }
+        // 进行非空判断
+        for (String path : pathSet) {
+            if (allPathSet.contains(path)) {
+                throw new RuntimeException("SpringMyMethodHandlerFactory::postProcessBeforeInstantiation(Class<?> beanClass, String beanName): " +
+                        "有重复的 MyRequestMapping 映射路径！");
+            } else {
+                allPathSet.add(path);
+                beanClassMap.put(beanName, beanClass);
+            }
+        }
+        return null;
     }
 
     /**
@@ -34,7 +61,16 @@ public class SpringMyMethodHandlerFactory extends BaseMyMethodHandlerFactory imp
     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return InstantiationAwareBeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
+        // 不对 bean 做任何处理，只是通过 bean 生成 MyMethodHandler 实例
+        if (beanClassMap.get(beanName) == null) {
+            return bean;
+        }
+        try {
+            addMyMethodHandler(bean, beanClassMap.get(beanName));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return bean;
     }
 
     /**
@@ -45,4 +81,5 @@ public class SpringMyMethodHandlerFactory extends BaseMyMethodHandlerFactory imp
     @Override
     void init() {
     }
+
 }

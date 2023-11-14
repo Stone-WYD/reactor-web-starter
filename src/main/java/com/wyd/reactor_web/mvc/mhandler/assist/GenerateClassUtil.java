@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.wyd.reactor_web.constants.AsmConstants.MYINVOKE;
+
 /**
  * @program: reactor_web
  * @description: 动态生成 controller 调用类
@@ -38,7 +40,7 @@ public class GenerateClassUtil {
 
     private static byte[] doGenerate(Class<?> targetClass, String className, Map<String, Method> urlToMethodMap) {
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null,"java/lang/Object", new String[]{"com/wyd/reactor_web/mvc/mhandler/MyMethodHandler$MyInvoke"});
+        cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null,"java/lang/Object", new String[]{MYINVOKE});
         Iterator<Map.Entry<String, Method>> iterator = urlToMethodMap.entrySet().iterator();
 
         // 添加构造函数
@@ -90,6 +92,7 @@ public class GenerateClassUtil {
         invoke.visitLdcInsn("无此方法");
         invoke.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
         invoke.visitInsn(Opcodes.ATHROW);
+        // TODO: 2023/11/14 此处设置最大栈深度的代码需要更多测试以保证准确性
         invoke.visitMaxs(maxStack, 4);
         invoke.visitEnd();
 
