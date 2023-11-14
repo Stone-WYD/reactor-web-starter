@@ -27,17 +27,15 @@ public enum ResultStatusCode {
     ;
 
 
-    ;
-
     /**
      * 状态码
      */
-    private int code;
+    private final int code;
 
     /**
      * 状态信息
      */
-    private String name;
+    private final String name;
 
     ResultStatusCode(int code, String name) {
         this.code = code;

@@ -26,7 +26,7 @@ public class HttpServerHandlerInitial extends ChannelInitializer<SocketChannel> 
     private ResultHandler resultHandler;
 
     @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
+    protected void initChannel(SocketChannel ch) {
 
         ChannelPipeline pipeline = ch.pipeline();
 

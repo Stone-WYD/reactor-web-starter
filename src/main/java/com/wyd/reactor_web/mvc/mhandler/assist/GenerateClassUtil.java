@@ -57,7 +57,7 @@ public class GenerateClassUtil {
         invoke.visitCode();
 
         Label lastIf;
-        Integer maxStack = 3;
+        int maxStack = 3;
         while (iterator.hasNext()) {
             Map.Entry<String, Method> entry = iterator.next();
             String pathUrl = entry.getKey();
@@ -73,7 +73,7 @@ public class GenerateClassUtil {
             invoke.visitTypeInsn(Opcodes.CHECKCAST, targetClass.getTypeName().replace('.', '/'));
             // 方法调用参数
             Class<?>[] parameterTypes = method.getParameterTypes();
-            maxStack = maxStack > 2 + parameterTypes.length ? maxStack : 2 + parameterTypes.length;
+            maxStack = Math.max(maxStack, 2 + parameterTypes.length);
             for (int i = 0; i < parameterTypes.length; i++) {
                 invoke.visitVarInsn(Opcodes.ALOAD, 3);
                 invoke.visitIntInsn(Opcodes.BIPUSH, i);
@@ -126,7 +126,7 @@ public class GenerateClassUtil {
             String name = getNeededName(parameterType);
             if (parameterType.isPrimitive()) parameterTypesStr.append(name);
             else if (name.contains("[")) parameterTypesStr.append(name.replace('.', '/'));
-            else parameterTypesStr.append("L" + name.replace('.', '/')).append(";");
+            else parameterTypesStr.append("L").append(name.replace('.', '/')).append(";");
         }
         // 获取返回值类型
         Class<?> returnType = method.getReturnType();

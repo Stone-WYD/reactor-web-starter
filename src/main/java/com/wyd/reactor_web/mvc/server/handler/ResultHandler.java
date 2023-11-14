@@ -2,7 +2,6 @@ package com.wyd.reactor_web.mvc.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.wyd.reactor_web.common.AjaxResult;
-import com.wyd.reactor_web.common.AjaxResultUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
@@ -21,9 +20,9 @@ public class ResultHandler extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        if (msg instanceof AjaxResult) {
+        if (msg instanceof AjaxResult<?>) {
             // 结果序列化
-            AjaxResult ajaxResult = (AjaxResult) msg;
+            AjaxResult<?> ajaxResult = (AjaxResult<?>) msg;
             String responseMsg = JSON.toJSONString(ajaxResult);
 
             // 返回 response

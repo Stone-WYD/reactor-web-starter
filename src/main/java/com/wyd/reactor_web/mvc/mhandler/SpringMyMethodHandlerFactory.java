@@ -1,10 +1,8 @@
 package com.wyd.reactor_web.mvc.mhandler;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.wyd.reactor_web.annotation.MyRequestMapping;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 
 import java.util.HashMap;
@@ -25,9 +23,9 @@ import static com.wyd.reactor_web.mvc.util.MapUtil.getPathSet;
 @Order(value = Integer.MIN_VALUE)
 public class SpringMyMethodHandlerFactory extends BaseMyMethodHandlerFactory implements InstantiationAwareBeanPostProcessor {
 
-    private Set<String> allPathSet = new HashSet<>();
+    private final Set<String> allPathSet = new HashSet<>();
 
-    private Map<String, Class> beanClassMap = new HashMap<>();
+    private final Map<String, Class<?>> beanClassMap = new HashMap<>();
 
     /**
     * @Description: 实例化单例之前进行的操作，为了尽早校验 MyRequestMapping 上的 url 是否重复

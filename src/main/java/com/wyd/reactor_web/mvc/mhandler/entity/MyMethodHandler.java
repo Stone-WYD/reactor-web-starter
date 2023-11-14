@@ -16,7 +16,7 @@ public class MyMethodHandler {
 
     private final Set<String> pathSet;
 
-    private Object target;
+    private final Object target;
 
     public MyMethodHandler(MyInvoke myInvoke, Set<String> pathSet, Object target) {
         this.myInvoke = myInvoke;

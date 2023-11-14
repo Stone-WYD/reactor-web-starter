@@ -19,9 +19,9 @@ import static com.wyd.reactor_web.mvc.util.MapUtil.getPathSet;
  **/
 public abstract class BaseMyMethodHandlerFactory extends ClassLoader  implements MyMethodHandlerFactory, Opcodes {
 
-    private List<MyMethodHandler> myMethodHandlers = new ArrayList<>();
+    private final List<MyMethodHandler> myMethodHandlers = new ArrayList<>();
 
-    private AtomicInteger increNameNum = new AtomicInteger(0);
+    private final AtomicInteger increNameNum = new AtomicInteger(0);
 
     abstract void init();
 
@@ -36,6 +36,9 @@ public abstract class BaseMyMethodHandlerFactory extends ClassLoader  implements
         // 获取动态类字节码
         byte[] code = GenerateClassUtil.generate(generateClassName, invokeClass);
         // 生成动态类的实例对象
+        if (code == null) {
+            throw new RuntimeException("GenerateClassUtil.generate: " + generateClassName + "生成动态类失败！");
+        }
         Class<?> aClass = defineClass(generateClassName, code, 0, code.length);
         MyMethodHandler.MyInvoke myInvoke = (MyMethodHandler.MyInvoke) aClass.getConstructor().newInstance();
         // 根据实例对象生成 MyMethodHandler
