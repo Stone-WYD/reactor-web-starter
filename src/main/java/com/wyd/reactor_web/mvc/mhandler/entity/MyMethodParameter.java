@@ -1,4 +1,4 @@
-package com.wyd.reactor_web.mvc.mphandler.entity;
+package com.wyd.reactor_web.mvc.mhandler.entity;
 
 import lombok.Data;
 

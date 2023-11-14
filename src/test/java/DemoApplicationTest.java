@@ -1,8 +1,8 @@
 import com.wyd.reactor_web.MySpringApplication;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
-import com.wyd.reactor_web.mvc.mphandler.MyMethodParameterHandlerFactory;
-import com.wyd.reactor_web.mvc.mphandler.entity.MyMethodParameter;
+import com.wyd.reactor_web.mvc.mhandler.SpringMethodParameterHandlerFactory;
+import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,7 +23,7 @@ public class DemoApplicationTest {
     private SpringMyMethodHandlerFactory factory;
 
     @Resource
-    private MyMethodParameterHandlerFactory parameterHandlerFactory;
+    private SpringMethodParameterHandlerFactory parameterHandlerFactory;
 
     @Test
     public void testGetMyMethodHandlers1() {
