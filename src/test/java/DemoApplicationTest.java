@@ -23,6 +23,13 @@ public class DemoApplicationTest {
     public void test1() {
         List<MyMethodHandler> myMethodHandlers = factory.getMyMethodHandlers();
         MyMethodHandler myMethodHandler = myMethodHandlers.get(0);
-        myMethodHandler.invoke("/asmTest/test2", new Object[]{"123"});
+        myMethodHandler.invoke("/asmTest/test1", new Object[]{});
+    }
+
+    @Test
+    public void test2() {
+        List<MyMethodHandler> myMethodHandlers = factory.getMyMethodHandlers();
+        MyMethodHandler myMethodHandler = myMethodHandlers.get(0);
+        myMethodHandler.invoke("/asmTest/test2", new Object[]{"wyd", "yxy", 1314, "~"});
     }
 }

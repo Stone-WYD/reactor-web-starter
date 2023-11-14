@@ -18,12 +18,20 @@ import org.springframework.web.servlet.ModelAndView;
 @MyRequestMapping(value = "/asmTest")
 public class Controller1 {
 
-
-    @MyRequestMapping(value = "/test2")
-    public ModelAndView test2(@RequestParam("name") String name) {
-        log.debug("test2({})", name);
-        System.out.println(name);
+    @MyRequestMapping(value = "/test1")
+    public ModelAndView test1() {
+        System.out.println("没有传参的测试~");
         return null;
     }
+
+    @MyRequestMapping(value = "/test2")
+    public ModelAndView test2(@RequestParam("name") String name, String name2, Integer name3, String name4) {
+        String content = name + name2 + name3 + name4;
+        log.debug("test2({})", content);
+        System.out.println(content);
+        return null;
+    }
+
+
 
 }
