@@ -1,6 +1,7 @@
 package com.wyd.reactor_web.test;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
+import com.wyd.reactor_web.annotation.MyRequestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ public class Controller1 {
     }
 
     @MyRequestMapping(value = "/test2")
-    public ModelAndView test2(@RequestParam("name") String name, String name2, Integer name3, String name4) {
+    public ModelAndView test2(@MyRequestParam("name") String name, String name2, Integer name3, String name4) {
         String content = name + name2 + name3 + name4;
         log.debug("test2({})", content);
         System.out.println(content);

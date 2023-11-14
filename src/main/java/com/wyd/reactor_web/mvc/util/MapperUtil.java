@@ -14,7 +14,7 @@ import java.util.Set;
  * @author: Stone
  * @create: 2023-11-13 18:02
  **/
-public class MapUtil {
+public class MapperUtil {
 
     public static Set<String> getPathSet(Class<?> targetClass) {
         Set<String> result = new HashSet<>();

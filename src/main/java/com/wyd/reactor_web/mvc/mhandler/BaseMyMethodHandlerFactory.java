@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.wyd.reactor_web.mvc.util.MapUtil.getPathSet;
+import static com.wyd.reactor_web.mvc.util.MapperUtil.getPathSet;
 
 /**
  * @program: reactor_web
