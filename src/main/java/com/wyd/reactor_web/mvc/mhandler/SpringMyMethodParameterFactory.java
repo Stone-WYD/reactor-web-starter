@@ -2,7 +2,7 @@ package com.wyd.reactor_web.mvc.mhandler;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
-import com.wyd.reactor_web.mvc.mhandler.interfaces.MyMethodParameterHandlerFactory;
+import com.wyd.reactor_web.mvc.mhandler.interfaces.MyMethodParameterFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author: Stone
  * @create: 2023-11-14 11:28
  **/
-public class SpringMethodParameterHandlerFactory implements InstantiationAwareBeanPostProcessor, MyMethodParameterHandlerFactory {
+public class SpringMyMethodParameterFactory implements InstantiationAwareBeanPostProcessor, MyMethodParameterFactory {
 
     private final Map<String, MyMethodParameter[]> parameterMap = new HashMap<>();
     private final Map<String, Method> methodMap = new HashMap<>();

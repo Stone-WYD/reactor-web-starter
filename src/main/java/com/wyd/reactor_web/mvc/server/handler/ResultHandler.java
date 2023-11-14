@@ -21,6 +21,7 @@ public class ResultHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof AjaxResult<?>) {
+            System.out.println("获取到结果了~");
             // 结果序列化
             AjaxResult<?> ajaxResult = (AjaxResult<?>) msg;
             String responseMsg = JSON.toJSONString(ajaxResult);

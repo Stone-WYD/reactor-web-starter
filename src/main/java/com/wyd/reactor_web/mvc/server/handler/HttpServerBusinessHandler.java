@@ -41,7 +41,17 @@ public class HttpServerBusinessHandler extends ChannelInboundHandlerAdapter {
                 log.info("请求uri:{},请求content:{},请求method:{}", uri, content, method);
 
                 //响应
-                ctx.write(AjaxResultUtil.getTrueAjaxResult(new AjaxResult<>()));
+                new Thread(()->{
+                    System.out.println("一个新建的线程休眠了2s...");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("新建的线程醒啦，它开始写入结果输入内容...");
+                    ctx.write(AjaxResultUtil.getTrueAjaxResult(new AjaxResult<>()));
+                }).start();
+
             } finally {
                 httpRequest.release();
             }
