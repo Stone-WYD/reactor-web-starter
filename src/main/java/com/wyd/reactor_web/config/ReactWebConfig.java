@@ -1,5 +1,6 @@
 package com.wyd.reactor_web.config;
 
+import com.wyd.reactor_web.mvc.invoke.NettyMyMethodInvokeHandler;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
@@ -32,9 +33,24 @@ public class ReactWebConfig {
         return new SpringMyMethodParameterFactory();
     }
 
+    /**
+    * @Description: 方法调用需要的 MyMethodInvokeGear 获取的工厂类
+    * @Author: Stone
+    * @Date: 2023/11/15
+    */
     @Bean
     public MyMethodInvokeGearFactory myMethodInvokeGearFactory(SpringMyMethodHandlerFactory springMyMethodHandlerFactory,
                                                                SpringMyMethodParameterFactory myMethodParameterHandlerFactory) {
         return new MyMethodInvokeGearFactory(springMyMethodHandlerFactory, myMethodParameterHandlerFactory);
+    }
+
+    /**
+    * @Description: netty handler 使用的方法调用类，类似于 springMVC 中 dispatcherServlet 的 service() 方法
+    * @Author: Stone
+    * @Date: 2023/11/15
+    */
+    @Bean
+    public NettyMyMethodInvokeHandler nettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory) {
+        return new NettyMyMethodInvokeHandler(myMethodInvokeGearFactory);
     }
 }
