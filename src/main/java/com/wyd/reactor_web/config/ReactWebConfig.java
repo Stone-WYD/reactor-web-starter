@@ -3,6 +3,7 @@ package com.wyd.reactor_web.config;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
+import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,5 +30,11 @@ public class ReactWebConfig {
     @Bean
     public SpringMyMethodParameterFactory myMethodParameterHandlerFactory() {
         return new SpringMyMethodParameterFactory();
+    }
+
+    @Bean
+    public MyMethodInvokeGearFactory myMethodInvokeGearFactory(SpringMyMethodHandlerFactory springMyMethodHandlerFactory,
+                                                               SpringMyMethodParameterFactory myMethodParameterHandlerFactory) {
+        return new MyMethodInvokeGearFactory(springMyMethodHandlerFactory, myMethodParameterHandlerFactory);
     }
 }
