@@ -3,6 +3,8 @@ package com.wyd.reactor_web.mvc.invoke;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyMethodInvokeHandler;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
+import com.wyd.reactor_web.mvc.invoke.processor.PostProcessorContainer;
+import com.wyd.reactor_web.mvc.invoke.processor.impl.InvokePostProcessor;
 import com.wyd.reactor_web.mvc.invoke.request.MyObtainParaFullHttpRequest;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
@@ -25,12 +27,15 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
 
     private final MyWebDataBinderFactory binderFactory;
 
+    private final PostProcessorContainer<InvokePostPrcessorContext> postProcessorContainer;
+
     public NettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory,
                                       MyHandlerMethodArgumentResolver argumentResolver,
                                       MyWebDataBinderFactory binderFactory) {
         this.myMethodInvokeGearFactory = myMethodInvokeGearFactory;
         this.argumentResolver = argumentResolver;
         this.binderFactory = binderFactory;
+        this.postProcessorContainer = PostProcessorContainer.getInstance(InvokePostProcessor.class);
     }
 
     @Override
@@ -47,27 +52,33 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         MyMethodInvokeGear invokeGear = myMethodInvokeGearFactory.getMyMethodInvokeGearByUrl(path);
 
         MyMethodHandler myMethodHandler = invokeGear.getMyMethodHandler();
-        MyMethodParameter[] parameterArray = invokeGear.getParameterArray();
-        Object[] parameters = new Object[parameterArray.length];
+        MyMethodParameter[] myMethodParameters = invokeGear.getParameterArray();
+        Object[] parameters = new Object[myMethodParameters.length];
 
         // 组合模式：准备方法调用参数
-        for (int i = 0; i < parameterArray.length; i++) {
-            MyMethodParameter myMethodParameter = parameterArray[i];
+        for (int i = 0; i < myMethodParameters.length; i++) {
+            MyMethodParameter myMethodParameter = myMethodParameters[i];
             if (argumentResolver.supportsParameter(myMethodParameter)) {
                 Object o = argumentResolver.resolveArgument(myMethodParameter, null, myRequest, binderFactory);
                 parameters[i] = o;
             }
         }
 
+        InvokePostPrcessorContext context = new InvokePostPrcessorContext();
+        context.setMyMethodHandler(myMethodHandler);
+        context.setMyMethodParameters(myMethodParameters);
+        context.setParameters(parameters);
         // 后处理器方式：方法调用前的操作
-
+        boolean handleFlag = postProcessorContainer.handleBefore(context);
 
         // 方法调用
-        Object result = myMethodHandler.invoke(path, parameters);
+        if (handleFlag) {
+            Object result = myMethodHandler.invoke(path, parameters);
+            context.setInvokeResult(result);
+        }
 
         // 后处理器方法：方法调用后的操作
-
+        postProcessorContainer.handleAfter(context);
 
     }
-
 }

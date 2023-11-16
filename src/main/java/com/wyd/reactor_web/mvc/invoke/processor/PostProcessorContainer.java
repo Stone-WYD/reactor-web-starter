@@ -8,43 +8,54 @@ import java.util.List;
 
 public class PostProcessorContainer<T>{
 
-    private Class<BasePostProcessor<T>> monitorPostProcessorClass;
+    private Class<? extends BasePostProcessor<T>> monitorPostProcessorClass;
 
+    private List<? extends BasePostProcessor<T>> postProcessors;
+
+    private volatile boolean hasInit = false;
 
     private PostProcessorContainer() {
     }
 
-    public static <T> PostProcessorContainer<T> getInstance(Class<BasePostProcessor<T>> monitorPostProcessorClass){
+    public static <T> PostProcessorContainer<T> getInstance(Class<? extends BasePostProcessor<T>> monitorPostProcessorClass){
         PostProcessorContainer<T> postProcessorContainer = new PostProcessorContainer<>();
         postProcessorContainer.monitorPostProcessorClass = monitorPostProcessorClass;
         // 使用者无法 new 对象，只能通过该方法获取实例，给方法扩展留空间
         return postProcessorContainer;
     }
 
-    public boolean handleBefore(PostContext<T> postContext){
-        List<? extends BasePostProcessor<T>> postProcessors
-                = ApplicationContextUtil.getBeansOfType(monitorPostProcessorClass);
-        if (CollectionUtil.isEmpty(postProcessors)) return true; // 没有操作则返回true
+    private void initPostProcessors() {
+        if (!hasInit) {
+            synchronized (this) {
+                if (!hasInit) {
+                    this.postProcessors
+                            = ApplicationContextUtil.getBeansOfType(monitorPostProcessorClass);
+                    if (CollectionUtil.isNotEmpty(postProcessors)) {
+                        postProcessors.sort(Comparator.comparing((BasePostProcessor<T> o) -> o.getPriprity()));
+                    }
+                    hasInit = true;
+                }
+            }
+        }
 
-        // 优先级越高，执行时越靠近核心
-        postProcessors.sort(Comparator.comparing((BasePostProcessor<T> o) -> o.getPriprity()));
+    }
 
+    public boolean handleBefore(T postContext){
+        initPostProcessors();
         for (BasePostProcessor<T> postProcessor : postProcessors) {
             // 如果支持处理，才会处理
             if (postProcessor.support(postContext)) {
-                postProcessor.handleBefore(postContext);
+                // 处理后需要停止后续操作则返回 false
+                if (!postProcessor.handleBefore(postContext)) {
+                    return false;
+                }
             }
         }
-        return false; // 有操作则返回false
+        return true; // 正常返回 true
     }
 
-    public void handleAfter(PostContext<T> postContext){
-        List<? extends BasePostProcessor<T>> postProcessors
-                = ApplicationContextUtil.getBeansOfType(monitorPostProcessorClass);
-        if (CollectionUtil.isEmpty(postProcessors)) return ;
-
-        // 优先级越高，执行时越靠近核心
-        postProcessors.sort(Comparator.comparing((BasePostProcessor<T> o) -> o.getPriprity()).reversed());
+    public void handleAfter(T postContext){
+        initPostProcessors();
 
         for (BasePostProcessor<T> postProcessor : postProcessors) {
             // 如果支持处理，才会处理
