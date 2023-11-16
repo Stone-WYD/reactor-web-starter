@@ -1,9 +1,10 @@
 package com.wyd.reactor_web.mvc.invoke.interfaces;
 
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
-import io.netty.handler.codec.http.FullHttpRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @program: reactor_web
@@ -15,7 +16,8 @@ public interface MyHandlerMethodArgumentResolver {
 
     boolean supportsParameter(MyMethodParameter parameter);
 
+    // @Description: 此处的 ModelAndViewContainer 是预留的，暂时还用不到
     @Nullable
     Object resolveArgument(MyMethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
-                           FullHttpRequest httpRequest, @Nullable MyWebDataBinderFactory binderFactory) throws Exception;
+                           HttpServletRequest httpRequest, @Nullable MyWebDataBinderFactory binderFactory) throws Exception;
 }

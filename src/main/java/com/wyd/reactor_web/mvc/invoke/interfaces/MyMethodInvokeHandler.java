@@ -10,7 +10,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 */
 public interface MyMethodInvokeHandler {
 
-    void invoke(ChannelHandlerContext ctx, FullHttpRequest msg);
+    void invoke(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception;
 
 
 }

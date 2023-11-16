@@ -1,6 +1,8 @@
 package com.wyd.reactor_web.config;
 
 import com.wyd.reactor_web.mvc.invoke.NettyMyMethodInvokeHandler;
+import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
+import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
@@ -44,13 +46,28 @@ public class ReactWebConfig {
         return new MyMethodInvokeGearFactory(springMyMethodHandlerFactory, myMethodParameterHandlerFactory);
     }
 
+    @Bean
+    public MyHandlerMethodArgumentResolver argumentResolver() {
+        // TODO: 2023/11/16 待完成
+        return null;
+    }
+
+    @Bean
+    public MyWebDataBinderFactory binderFactory() {
+        // TODO: 2023/11/16 待完成
+        return null;
+    }
+
+
     /**
     * @Description: netty handler 使用的方法调用类，类似于 springMVC 中 dispatcherServlet 的 service() 方法
     * @Author: Stone
     * @Date: 2023/11/15
     */
     @Bean
-    public NettyMyMethodInvokeHandler nettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory) {
-        return new NettyMyMethodInvokeHandler(myMethodInvokeGearFactory);
+    public NettyMyMethodInvokeHandler nettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory,
+                                                                 MyHandlerMethodArgumentResolver argumentResolver,
+                                                                 MyWebDataBinderFactory binderFactory) {
+        return new NettyMyMethodInvokeHandler(myMethodInvokeGearFactory, argumentResolver, binderFactory);
     }
 }

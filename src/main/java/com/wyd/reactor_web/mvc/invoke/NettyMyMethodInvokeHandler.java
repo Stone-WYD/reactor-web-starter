@@ -1,6 +1,9 @@
 package com.wyd.reactor_web.mvc.invoke;
 
+import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyMethodInvokeHandler;
+import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
+import com.wyd.reactor_web.mvc.invoke.request.MyObtainParaFullHttpRequest;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodInvokeGear;
@@ -18,34 +21,52 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
 
     private final MyMethodInvokeGearFactory myMethodInvokeGearFactory;
 
-    public NettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory) {
+    private final MyHandlerMethodArgumentResolver argumentResolver;
+
+    private final MyWebDataBinderFactory binderFactory;
+
+    public NettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory,
+                                      MyHandlerMethodArgumentResolver argumentResolver,
+                                      MyWebDataBinderFactory binderFactory) {
         this.myMethodInvokeGearFactory = myMethodInvokeGearFactory;
+        this.argumentResolver = argumentResolver;
+        this.binderFactory = binderFactory;
     }
 
     @Override
-    public void invoke(ChannelHandlerContext ctx, FullHttpRequest httpRequest) {
+    public void invoke(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
         // 请求地址
         String path = httpRequest.uri();
         if (path.indexOf('?') != -1) {
             path = path.substring(0, path.indexOf('?'));
         }
+        MyObtainParaFullHttpRequest myRequest = new MyObtainParaFullHttpRequest(httpRequest);
 
 
         // 方法调用需要的东西
         MyMethodInvokeGear invokeGear = myMethodInvokeGearFactory.getMyMethodInvokeGearByUrl(path);
 
         MyMethodHandler myMethodHandler = invokeGear.getMyMethodHandler();
-
-        MyMethodParameter[] parameterArrays = invokeGear.getParameterArrays();
-        Object[] parameters = new Object[parameterArrays.length];
+        MyMethodParameter[] parameterArray = invokeGear.getParameterArray();
+        Object[] parameters = new Object[parameterArray.length];
 
         // 组合模式：准备方法调用参数
+        for (int i = 0; i < parameterArray.length; i++) {
+            MyMethodParameter myMethodParameter = parameterArray[i];
+            if (argumentResolver.supportsParameter(myMethodParameter)) {
+                Object o = argumentResolver.resolveArgument(myMethodParameter, null, myRequest, binderFactory);
+                parameters[i] = o;
+            }
+        }
 
         // 后处理器方式：方法调用前的操作
 
+
         // 方法调用
+        Object result = myMethodHandler.invoke(path, parameters);
 
         // 后处理器方法：方法调用后的操作
+
 
     }
 

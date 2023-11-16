@@ -15,7 +15,7 @@ public class MyMethodInvokeGear {
 
     private MyMethodHandler myMethodHandler;
 
-    private MyMethodParameter[] parameterArrays;
+    private MyMethodParameter[] parameterArray;
 
     private Method method;
 
