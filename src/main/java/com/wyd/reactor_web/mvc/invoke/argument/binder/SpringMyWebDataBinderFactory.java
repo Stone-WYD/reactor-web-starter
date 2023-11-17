@@ -4,7 +4,6 @@ import com.wyd.reactor_web.annotation.MyControllerAdvice;
 import com.wyd.reactor_web.annotation.MyInitBinder;
 import com.wyd.reactor_web.autil.ApplicationContextUtil;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
-import com.wyd.reactor_web.mvc.invoke.request.MyHttpRequest;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -12,6 +11,7 @@ import org.springframework.format.Formatter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.InvocableHandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.ServletRequestDataBinderFactory;
 
@@ -64,10 +64,10 @@ public class SpringMyWebDataBinderFactory implements MyWebDataBinderFactory, Ins
     }
 
     @Override
-    public WebDataBinder createBinder(MyHttpRequest httpRequest, Object target, String objectName) {
+    public WebDataBinder createBinder(NativeWebRequest nativeWebRequest, Object target, String objectName) {
         initInitializer();
         try {
-            return factory.createBinder(httpRequest, target, objectName);
+            return factory.createBinder(nativeWebRequest, target, objectName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

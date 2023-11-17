@@ -5,7 +5,6 @@ import com.wyd.reactor_web.mvc.invoke.interfaces.MyMethodInvokeHandler;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.invoke.processor.PostProcessorContainer;
 import com.wyd.reactor_web.mvc.invoke.processor.impl.InvokePostProcessor;
-import com.wyd.reactor_web.mvc.invoke.request.MyObtainParaFullHttpRequest;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodInvokeGear;
@@ -45,8 +44,6 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         if (path.indexOf('?') != -1) {
             path = path.substring(0, path.indexOf('?'));
         }
-        // 获取一个 servlet 的请求
-        MyObtainParaFullHttpRequest myRequest = new MyObtainParaFullHttpRequest(httpRequest);
 
         // 方法调用需要的东西
         MyMethodInvokeGear invokeGear = myMethodInvokeGearFactory.getMyMethodInvokeGearByUrl(path);
@@ -59,7 +56,7 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         for (int i = 0; i < myMethodParameters.length; i++) {
             MyMethodParameter myMethodParameter = myMethodParameters[i];
             if (argumentResolver.supportsParameter(myMethodParameter)) {
-                Object o = argumentResolver.resolveArgument(myMethodParameter, null, myRequest, binderFactory);
+                Object o = argumentResolver.resolveArgument(myMethodParameter, null, httpRequest, binderFactory);
                 parameters[i] = o;
             } else {
                 throw new RuntimeException("NettyMyMethodInvokeHandler::invoke,参数没有合适的处理器处理！");

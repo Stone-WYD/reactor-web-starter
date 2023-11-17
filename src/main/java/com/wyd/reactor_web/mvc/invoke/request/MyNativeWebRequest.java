@@ -13,7 +13,7 @@ import java.util.Map;
  * @author: Stone
  * @create: 2023-11-17 13:53
  **/
-public abstract class MyHttpRequest implements NativeWebRequest {
+public abstract class MyNativeWebRequest implements NativeWebRequest {
     @Override
     public Object getNativeRequest() {
         return null;

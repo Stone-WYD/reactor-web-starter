@@ -1,8 +1,8 @@
 package com.wyd.reactor_web.mvc.invoke.interfaces;
 
-import com.wyd.reactor_web.mvc.invoke.request.MyHttpRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.context.request.NativeWebRequest;
 
 
 /**
@@ -13,6 +13,6 @@ import org.springframework.web.bind.WebDataBinder;
  **/
 public interface MyWebDataBinderFactory {
 
-    WebDataBinder createBinder(MyHttpRequest httpRequest, @Nullable Object target, String objectName)
+    WebDataBinder createBinder(NativeWebRequest nativeWebRequest, @Nullable Object target, String objectName)
             throws Exception;
 }

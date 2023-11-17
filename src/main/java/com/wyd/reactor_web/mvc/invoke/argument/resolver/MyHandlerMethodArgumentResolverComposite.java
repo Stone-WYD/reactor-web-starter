@@ -2,8 +2,8 @@ package com.wyd.reactor_web.mvc.invoke.argument.resolver;
 
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
-import com.wyd.reactor_web.mvc.invoke.request.MyHttpRequest;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
+import io.netty.handler.codec.http.FullHttpRequest;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.lang.Nullable;
@@ -42,6 +42,10 @@ public class MyHandlerMethodArgumentResolverComposite implements BeanPostProcess
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }
 
+    public void addMyHandlerMethodArgumentResolver(MyHandlerMethodArgumentResolver resolver) {
+        this.resolvers.add(resolver);
+    }
+
     @Override
     public boolean supportsParameter(MyMethodParameter parameter) {
         for (MyHandlerMethodArgumentResolver resolver : resolvers) {
@@ -53,7 +57,7 @@ public class MyHandlerMethodArgumentResolverComposite implements BeanPostProcess
     }
 
     @Override
-    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, MyHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, FullHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) throws Exception {
         MyHandlerMethodArgumentResolver argumentResolver = getArgumentResolver(parameter);
         if (argumentResolver == null) {
             throw new RuntimeException("Unsupported parameter type [" +
