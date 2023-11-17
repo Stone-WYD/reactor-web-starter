@@ -14,6 +14,7 @@ import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @program: reactor_web
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
  * @author: Stone
  * @create: 2023-11-13 18:19
  **/
+@Import(ServerRunConfig.class)
 @Configuration
 public class ReactWebConfig {
 

@@ -6,7 +6,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,7 +15,6 @@ import javax.annotation.Resource;
  * @author: Stone
  * @create: 2023-11-06 11:01
  **/
-@Component
 public class HttpServerHandlerInitial extends ChannelInitializer<SocketChannel> {
 
     /*@Resource
