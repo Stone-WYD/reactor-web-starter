@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: reactor_web
- * @description: spring 测试类
- * @author: Stone
- * @create: 2023-11-14 09:33
+ * {@code @program:} reactor_web
+ * {@code @description:} spring 测试类
+ * {@code @author:} Stone
+ * {@code @create:} 2023-11-14 09:33
  **/
 @SpringBootTest(classes = MySpringApplication.class)
 public class DemoApplicationTest {
