@@ -1,4 +1,4 @@
-package com.wyd.reactor_web.mvc.invoke.processor;
+package com.wyd.reactor_web.design.postprocessor;
 
 public interface BasePostProcessor <T>{
 

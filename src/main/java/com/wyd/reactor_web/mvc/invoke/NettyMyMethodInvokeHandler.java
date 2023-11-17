@@ -3,8 +3,7 @@ package com.wyd.reactor_web.mvc.invoke;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyMethodInvokeHandler;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
-import com.wyd.reactor_web.mvc.invoke.processor.PostProcessorContainer;
-import com.wyd.reactor_web.mvc.invoke.processor.impl.InvokePostProcessor;
+import com.wyd.reactor_web.mvc.invoke.processor.SpringInvokePostProcessorContainer;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodInvokeGear;
@@ -26,15 +25,17 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
 
     private final MyWebDataBinderFactory binderFactory;
 
-    private final PostProcessorContainer<InvokePostPrcessorContext> postProcessorContainer;
+    private final SpringInvokePostProcessorContainer springInvokePostProcessorContainer;
 
     public NettyMyMethodInvokeHandler(MyMethodInvokeGearFactory myMethodInvokeGearFactory,
                                       MyHandlerMethodArgumentResolver argumentResolver,
-                                      MyWebDataBinderFactory binderFactory) {
+                                      MyWebDataBinderFactory binderFactory,
+                                      SpringInvokePostProcessorContainer invokePostProcessorContainer
+                                      ) {
         this.myMethodInvokeGearFactory = myMethodInvokeGearFactory;
         this.argumentResolver = argumentResolver;
         this.binderFactory = binderFactory;
-        this.postProcessorContainer = PostProcessorContainer.getInstance(InvokePostProcessor.class);
+        this.springInvokePostProcessorContainer = invokePostProcessorContainer;
     }
 
     @Override
@@ -68,18 +69,18 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         context.setMyMethodParameters(myMethodParameters);
         context.setParameters(parameters);
         // 后处理器方式：方法调用前的操作
-        boolean handleFlag = postProcessorContainer.handleBefore(context);
+        boolean handleFlag = springInvokePostProcessorContainer.handleBefore(context);
 
         // 方法调用
         if (handleFlag) {
             Object result = myMethodHandler.invoke(path, parameters);
             context.setInvokeResult(result);
-
             // TODO: 2023/11/17 测试用
             ctx.write(result);
         }
 
         // 后处理器方法：方法调用后的操作
-        postProcessorContainer.handleAfter(context);
+        springInvokePostProcessorContainer.handleAfter(context);
+
     }
 }
