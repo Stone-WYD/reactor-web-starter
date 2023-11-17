@@ -1,6 +1,7 @@
 package com.wyd.reactor_web.mvc.invoke.argument.resolver.self;
 
 import com.alibaba.fastjson.JSON;
+import com.wyd.reactor_web.annotation.param.MyReqeustBody;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
@@ -22,7 +23,7 @@ public class MyRequestBodyArgumentResolver implements MyHandlerMethodArgumentRes
         Annotation[] annotations = parameter.getAnnotations();
         if (annotations != null || annotations.length > 0) {
             for (Annotation annotation : annotations) {
-                if (annotation instanceof MyRequestBodyArgumentResolver) {
+                if (annotation instanceof MyReqeustBody) {
                     return true;
                 }
             }
@@ -31,7 +32,7 @@ public class MyRequestBodyArgumentResolver implements MyHandlerMethodArgumentRes
     }
 
     @Override
-    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, FullHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, FullHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) {
         String content = httpRequest.content().toString(CharsetUtil.UTF_8);
         return JSON.parseObject(content, parameter.getParameterClass());
     }

@@ -1,6 +1,7 @@
 package com.wyd.reactor_web.test;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
+import com.wyd.reactor_web.annotation.param.MyReqeustBody;
 import com.wyd.reactor_web.annotation.param.MyRequestParam;
 import com.wyd.reactor_web.common.AjaxResult;
 import com.wyd.reactor_web.common.AjaxResultUtil;
@@ -46,6 +47,16 @@ public class Controller1 {
 
     @MyRequestMapping(value = "/test4")
     public AjaxResult<String> test4(Names names) {
+        String content = names.toString();
+        log.debug("test3({})", content);
+        System.out.println(content);
+        AjaxResult<String> result = new AjaxResult<>();
+        result.setData(content);
+        return AjaxResultUtil.getTrueAjaxResult(result);
+    }
+
+    @MyRequestMapping(value = "/test5")
+    public AjaxResult<String> test5(@MyReqeustBody Names names) {
         String content = names.toString();
         log.debug("test3({})", content);
         System.out.println(content);
