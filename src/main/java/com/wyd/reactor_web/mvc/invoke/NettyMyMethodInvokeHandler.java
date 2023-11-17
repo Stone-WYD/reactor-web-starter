@@ -45,8 +45,8 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         if (path.indexOf('?') != -1) {
             path = path.substring(0, path.indexOf('?'));
         }
+        // 获取一个 servlet 的请求
         MyObtainParaFullHttpRequest myRequest = new MyObtainParaFullHttpRequest(httpRequest);
-
 
         // 方法调用需要的东西
         MyMethodInvokeGear invokeGear = myMethodInvokeGearFactory.getMyMethodInvokeGearByUrl(path);
@@ -79,6 +79,5 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
 
         // 后处理器方法：方法调用后的操作
         postProcessorContainer.handleAfter(context);
-
     }
 }

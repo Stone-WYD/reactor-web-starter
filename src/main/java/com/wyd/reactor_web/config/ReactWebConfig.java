@@ -1,6 +1,7 @@
 package com.wyd.reactor_web.config;
 
 import com.wyd.reactor_web.mvc.invoke.NettyMyMethodInvokeHandler;
+import com.wyd.reactor_web.mvc.invoke.argument.resolver.MyHandlerMethodArgumentResolverComposite;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
@@ -48,8 +49,8 @@ public class ReactWebConfig {
 
     @Bean
     public MyHandlerMethodArgumentResolver argumentResolver() {
-        // TODO: 2023/11/16 待完成
-        return null;
+        // TODO: 2023/11/16 待加入一些新的参数处理类
+        return new MyHandlerMethodArgumentResolverComposite();
     }
 
     @Bean
