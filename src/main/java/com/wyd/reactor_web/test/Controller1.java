@@ -1,7 +1,7 @@
 package com.wyd.reactor_web.test;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
-import com.wyd.reactor_web.annotation.MyRequestParam;
+import com.wyd.reactor_web.annotation.param.MyRequestParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;

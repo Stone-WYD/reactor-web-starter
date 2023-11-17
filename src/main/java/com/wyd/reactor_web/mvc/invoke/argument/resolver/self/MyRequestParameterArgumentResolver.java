@@ -1,7 +1,7 @@
 package com.wyd.reactor_web.mvc.invoke.argument.resolver.self;
 
 import cn.hutool.core.util.StrUtil;
-import com.wyd.reactor_web.annotation.MyRequestParam;
+import com.wyd.reactor_web.annotation.param.MyRequestParam;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
