@@ -49,9 +49,14 @@ public class MyRequestParameterArgumentResolver implements  MyHandlerMethodArgum
 
         String parameterValue = nativeWebRequest.getParameter(parameterName);
         Class<?> parameterClass = parameter.getParameterClass();
+
+        // 如果是 String 类型，则返回 parameterValue
+        if (String.class == parameterClass) return parameterValue;
+
         // 如果是基本类型，则取出来 String 类型转换后返回
         Object primitiveValue = convertStringToPrimitive(parameterClass, parameterValue);
         if (primitiveValue != null) return primitiveValue;
+
         // 使用工厂进行数据绑定
         Object target = parameterClass.getDeclaredConstructor().newInstance();
         WebDataBinder binder = binderFactory.createBinder(nativeWebRequest, target, parameterName);

@@ -60,7 +60,7 @@ public class ConvertUtil {
             String uri = fullHttpRequest.uri();
             // 填充 queryParam
             if (uri.contains("?")) {
-                String paramsString = uri.substring(uri.indexOf('?'));
+                String paramsString = uri.substring(uri.indexOf('?') + 1);
                 String[] params = paramsString.split("&");
                 for (String param : params) {
                     int idx = param.indexOf('=');
@@ -131,7 +131,7 @@ public class ConvertUtil {
             String uri = fullHttpRequest.uri();
             // 填充 queryParam
             if (uri.contains("?")) {
-                String paramsString = uri.substring(uri.indexOf('?'));
+                String paramsString = uri.substring(uri.indexOf('?') + 1);
                 String[] params = paramsString.split("&");
                 for (String param : params) {
                     int idx = param.indexOf('=');

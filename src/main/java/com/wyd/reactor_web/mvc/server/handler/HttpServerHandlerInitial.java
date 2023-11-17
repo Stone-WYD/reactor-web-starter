@@ -19,8 +19,11 @@ import javax.annotation.Resource;
 @Component
 public class HttpServerHandlerInitial extends ChannelInitializer<SocketChannel> {
 
+    /*@Resource
+    private HttpServerTestHandler businessHandler;*/
+
     @Resource
-    private HttpServerTestHandler businessHandler;
+    private HttpServerBusinessHandler businessHandler;
 
     @Resource
     private ResultHandler resultHandler;

@@ -2,6 +2,8 @@ package com.wyd.reactor_web.test;
 
 import com.wyd.reactor_web.annotation.MyRequestMapping;
 import com.wyd.reactor_web.annotation.param.MyRequestParam;
+import com.wyd.reactor_web.common.AjaxResult;
+import com.wyd.reactor_web.common.AjaxResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +32,26 @@ public class Controller1 {
         log.debug("test2({})", content);
         System.out.println(content);
         return null;
+    }
+
+    @MyRequestMapping(value = "/test3")
+    public AjaxResult<String> test3(@MyRequestParam("name") String name, String name2, Integer name3, String name4) {
+        String content = name + name2 + name3 + name4;
+        log.debug("test3({})", content);
+        System.out.println(content);
+        AjaxResult<String> result = new AjaxResult<>();
+        result.setData(content);
+        return AjaxResultUtil.getTrueAjaxResult(result);
+    }
+
+    @MyRequestMapping(value = "/test4")
+    public AjaxResult<String> test4(Names names) {
+        String content = names.toString();
+        log.debug("test3({})", content);
+        System.out.println(content);
+        AjaxResult<String> result = new AjaxResult<>();
+        result.setData(content);
+        return AjaxResultUtil.getTrueAjaxResult(result);
     }
 
 

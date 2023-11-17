@@ -74,6 +74,9 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         if (handleFlag) {
             Object result = myMethodHandler.invoke(path, parameters);
             context.setInvokeResult(result);
+
+            // TODO: 2023/11/17 测试用
+            ctx.write(result);
         }
 
         // 后处理器方法：方法调用后的操作
