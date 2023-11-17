@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,6 @@ import java.util.Map;
  * @Author: Stone
  * @Date: 2023/9/11
  */
-@Component
 public class ApplicationContextUtil implements ApplicationContextAware, EnvironmentAware {
 
     public static ApplicationContext applicationContext;
