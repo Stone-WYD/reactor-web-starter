@@ -2,13 +2,13 @@ package com.wyd.reactor_web.mvc.invoke.argument.resolver;
 
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
+import com.wyd.reactor_web.mvc.invoke.request.MyHttpRequest;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +28,11 @@ public class MyHandlerMethodArgumentResolverComposite implements BeanPostProcess
     private final Map<MyMethodParameter, MyHandlerMethodArgumentResolver> argumentResolverCache =
             new ConcurrentHashMap<>(256);
 
+    /**
+    * @Description: 此处不考虑后处理器会被动态代理增强的情况
+    * @Author: Stone
+    * @Date: 2023/11/17
+    */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         // 将后处理器加入到参数处理器中
@@ -48,7 +53,7 @@ public class MyHandlerMethodArgumentResolverComposite implements BeanPostProcess
     }
 
     @Override
-    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, HttpServletRequest httpRequest, MyWebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, MyHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) throws Exception {
         MyHandlerMethodArgumentResolver argumentResolver = getArgumentResolver(parameter);
         if (argumentResolver == null) {
             throw new RuntimeException("Unsupported parameter type [" +

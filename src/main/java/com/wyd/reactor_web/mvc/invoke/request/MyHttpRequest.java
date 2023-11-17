@@ -1,69 +1,76 @@
 package com.wyd.reactor_web.mvc.invoke.request;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.BufferedReader;
+import org.springframework.web.context.request.NativeWebRequest;
+
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
 /**
  * @program: reactor_web
- * @description: http 请求类
+ * @description: WebDataBinderFactory 可以处理的 request 类型
  * @author: Stone
- * @create: 2023-11-15 16:51
+ * @create: 2023-11-17 13:53
  **/
-public abstract class MyHttpRequest  implements HttpServletRequest {
-
+public abstract class MyHttpRequest implements NativeWebRequest {
     @Override
-    public String getAuthType() {
+    public Object getNativeRequest() {
         return null;
     }
 
     @Override
-    public Cookie[] getCookies() {
-        return new Cookie[0];
-    }
-
-    @Override
-    public long getDateHeader(String name) {
-        return 0;
-    }
-
-    @Override
-    public String getHeader(String name) {
+    public Object getNativeResponse() {
         return null;
     }
 
     @Override
-    public Enumeration<String> getHeaders(String name) {
+    public <T> T getNativeRequest(Class<T> requiredType) {
         return null;
     }
 
     @Override
-    public Enumeration<String> getHeaderNames() {
+    public <T> T getNativeResponse(Class<T> requiredType) {
         return null;
     }
 
     @Override
-    public int getIntHeader(String name) {
-        return 0;
-    }
-
-    @Override
-    public String getMethod() {
+    public String getHeader(String headerName) {
         return null;
     }
 
     @Override
-    public String getPathInfo() {
+    public String[] getHeaderValues(String headerName) {
+        return new String[0];
+    }
+
+    @Override
+    public Iterator<String> getHeaderNames() {
         return null;
     }
 
     @Override
-    public String getPathTranslated() {
+    public String getParameter(String paramName) {
+        return null;
+    }
+
+    @Override
+    public String[] getParameterValues(String paramName) {
+        return new String[0];
+    }
+
+    @Override
+    public Iterator<String> getParameterNames() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return null;
+    }
+
+    @Override
+    public Locale getLocale() {
         return null;
     }
 
@@ -73,12 +80,12 @@ public abstract class MyHttpRequest  implements HttpServletRequest {
     }
 
     @Override
-    public String getQueryString() {
+    public String getRemoteUser() {
         return null;
     }
 
     @Override
-    public String getRemoteUser() {
+    public Principal getUserPrincipal() {
         return null;
     }
 
@@ -88,277 +95,67 @@ public abstract class MyHttpRequest  implements HttpServletRequest {
     }
 
     @Override
-    public Principal getUserPrincipal() {
-        return null;
-    }
-
-    @Override
-    public String getRequestedSessionId() {
-        return null;
-    }
-
-    @Override
-    public String getRequestURI() {
-        return null;
-    }
-
-    @Override
-    public StringBuffer getRequestURL() {
-        return null;
-    }
-
-    @Override
-    public String getServletPath() {
-        return null;
-    }
-
-    @Override
-    public HttpSession getSession(boolean create) {
-        return null;
-    }
-
-    @Override
-    public HttpSession getSession() {
-        return null;
-    }
-
-    @Override
-    public String changeSessionId() {
-        return null;
-    }
-
-    @Override
-    public boolean isRequestedSessionIdValid() {
-        return false;
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromCookie() {
-        return false;
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromURL() {
-        return false;
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        return false;
-    }
-
-    @Override
-    public boolean authenticate(HttpServletResponse response) {
-        return false;
-    }
-
-    @Override
-    public void login(String username, String password) {
-
-    }
-
-    @Override
-    public void logout() {
-
-    }
-
-    @Override
-    public Collection<Part> getParts() {
-        return null;
-    }
-
-    @Override
-    public Part getPart(String name) {
-        return null;
-    }
-
-    @Override
-    public <T extends HttpUpgradeHandler> T upgrade(Class<T> httpUpgradeHandlerClass) {
-        return null;
-    }
-
-    @Override
-    public Object getAttribute(String name) {
-        return null;
-    }
-
-    @Override
-    public Enumeration<String> getAttributeNames() {
-        return null;
-    }
-
-    @Override
-    public String getCharacterEncoding() {
-        return null;
-    }
-
-    @Override
-    public void setCharacterEncoding(String env) {
-
-    }
-
-    @Override
-    public int getContentLength() {
-        return 0;
-    }
-
-    @Override
-    public long getContentLengthLong() {
-        return 0;
-    }
-
-    @Override
-    public String getContentType() {
-        return null;
-    }
-
-    @Override
-    public ServletInputStream getInputStream() {
-        return null;
-    }
-
-    @Override
-    public String getParameter(String name) {
-        return null;
-    }
-
-    @Override
-    public Enumeration<String> getParameterNames() {
-        return null;
-    }
-
-    @Override
-    public String[] getParameterValues(String name) {
-        return new String[0];
-    }
-
-    @Override
-    public Map<String, String[]> getParameterMap() {
-        return null;
-    }
-
-    @Override
-    public String getProtocol() {
-        return null;
-    }
-
-    @Override
-    public String getScheme() {
-        return null;
-    }
-
-    @Override
-    public String getServerName() {
-        return null;
-    }
-
-    @Override
-    public int getServerPort() {
-        return 0;
-    }
-
-    @Override
-    public BufferedReader getReader() {
-        return null;
-    }
-
-    @Override
-    public String getRemoteAddr() {
-        return null;
-    }
-
-    @Override
-    public String getRemoteHost() {
-        return null;
-    }
-
-    @Override
-    public void setAttribute(String name, Object o) {
-
-    }
-
-    @Override
-    public void removeAttribute(String name) {
-
-    }
-
-    @Override
-    public Locale getLocale() {
-        return null;
-    }
-
-    @Override
-    public Enumeration<Locale> getLocales() {
-        return null;
-    }
-
-    @Override
     public boolean isSecure() {
         return false;
     }
 
     @Override
-    public RequestDispatcher getRequestDispatcher(String path) {
-        return null;
-    }
-
-    @Override
-    public String getRealPath(String path) {
-        return null;
-    }
-
-    @Override
-    public int getRemotePort() {
-        return 0;
-    }
-
-    @Override
-    public String getLocalName() {
-        return null;
-    }
-
-    @Override
-    public String getLocalAddr() {
-        return null;
-    }
-
-    @Override
-    public int getLocalPort() {
-        return 0;
-    }
-
-    @Override
-    public ServletContext getServletContext() {
-        return null;
-    }
-
-    @Override
-    public AsyncContext startAsync() throws IllegalStateException {
-        return null;
-    }
-
-    @Override
-    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
-        return null;
-    }
-
-    @Override
-    public boolean isAsyncStarted() {
+    public boolean checkNotModified(long lastModifiedTimestamp) {
         return false;
     }
 
     @Override
-    public boolean isAsyncSupported() {
+    public boolean checkNotModified(String etag) {
         return false;
     }
 
     @Override
-    public AsyncContext getAsyncContext() {
+    public boolean checkNotModified(String etag, long lastModifiedTimestamp) {
+        return false;
+    }
+
+    @Override
+    public String getDescription(boolean includeClientInfo) {
         return null;
     }
 
     @Override
-    public DispatcherType getDispatcherType() {
+    public Object getAttribute(String name, int scope) {
+        return null;
+    }
+
+    @Override
+    public void setAttribute(String name, Object value, int scope) {
+
+    }
+
+    @Override
+    public void removeAttribute(String name, int scope) {
+
+    }
+
+    @Override
+    public String[] getAttributeNames(int scope) {
+        return new String[0];
+    }
+
+    @Override
+    public void registerDestructionCallback(String name, Runnable callback, int scope) {
+
+    }
+
+    @Override
+    public Object resolveReference(String key) {
+        return null;
+    }
+
+    @Override
+    public String getSessionId() {
+        return null;
+    }
+
+    @Override
+    public Object getSessionMutex() {
         return null;
     }
 }

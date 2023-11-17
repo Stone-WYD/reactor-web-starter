@@ -1,6 +1,7 @@
 package com.wyd.reactor_web.config;
 
 import com.wyd.reactor_web.mvc.invoke.NettyMyMethodInvokeHandler;
+import com.wyd.reactor_web.mvc.invoke.argument.binder.SpringMyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.invoke.argument.resolver.MyHandlerMethodArgumentResolverComposite;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
@@ -56,7 +57,7 @@ public class ReactWebConfig {
     @Bean
     public MyWebDataBinderFactory binderFactory() {
         // TODO: 2023/11/16 待完成
-        return null;
+        return new SpringMyWebDataBinderFactory();
     }
 
 

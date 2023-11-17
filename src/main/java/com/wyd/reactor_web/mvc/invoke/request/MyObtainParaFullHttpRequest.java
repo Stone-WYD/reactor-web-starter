@@ -13,7 +13,7 @@ import java.util.*;
  * @author: Stone
  * @create: 2023-11-15 16:57
  **/
-public class MyObtainParaFullHttpRequest extends MyHttpRequest{
+public class MyObtainParaFullHttpRequest extends MyHttpRequest {
 
 
     private final Map<String, String[]> queryParam = new LinkedHashMap<>(16);
@@ -44,30 +44,20 @@ public class MyObtainParaFullHttpRequest extends MyHttpRequest{
 
     // 请求头相关
     @Override
-    public Enumeration<String> getHeaders(String name) {
+    public String[] getHeaderValues(String name) {
         List<String> all = headers.getAll(name);
-        return Collections.enumeration(all != null ? all : new LinkedList<>());
+        return all.toArray(new String[0]);
     }
 
     @Override
-    public Enumeration<String> getHeaderNames() {
+    public Iterator<String> getHeaderNames() {
         Set<String> all = headers.names();
-        return Collections.enumeration(all != null ? all : new LinkedList<>());
+        return all.iterator();
     }
 
     @Override
     public String getHeader(String name) {
         return headers.get(name);
-    }
-
-    @Override
-    public int getIntHeader(String name) {
-        return headers.getInt(name);
-    }
-
-    @Override
-    public long getDateHeader(String name) {
-        return headers.getTimeMillis(name);
     }
 
     // 根据参数名获取参数值。
@@ -80,8 +70,8 @@ public class MyObtainParaFullHttpRequest extends MyHttpRequest{
     }
 
     @Override
-    public Enumeration<String> getParameterNames() {
-        return Collections.enumeration(queryParam.keySet());
+    public Iterator<String> getParameterNames() {
+        return queryParam.keySet().iterator();
     }
 
     @Override
@@ -93,23 +83,6 @@ public class MyObtainParaFullHttpRequest extends MyHttpRequest{
     public Map<String, String[]> getParameterMap() {
         return queryParam;
     }
-
-    /*// 上传信息相关，暂不考虑
-    @Override
-    public Part getPart(String name) throws IOException, ServletException {
-        return super.getPart(name);
-    }
-
-    @Override
-    public Collection<Part> getParts() throws IOException, ServletException {
-        return super.getParts();
-    }*/
-
-
-    /*getParameter(String name){}; //:
-    getParameterValues(String name): 根据参数名获取所有参数值。
-    getParameterMap(): 获取所有参数名和参数值的映射。
-    */
 
 
 }

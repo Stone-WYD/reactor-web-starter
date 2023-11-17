@@ -61,6 +61,8 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
             if (argumentResolver.supportsParameter(myMethodParameter)) {
                 Object o = argumentResolver.resolveArgument(myMethodParameter, null, myRequest, binderFactory);
                 parameters[i] = o;
+            } else {
+                throw new RuntimeException("NettyMyMethodInvokeHandler::invoke,参数没有合适的处理器处理！");
             }
         }
 

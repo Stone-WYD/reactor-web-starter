@@ -66,7 +66,7 @@ public class MyMethodInvokeGearFactory {
         MyMethodInvokeGear resultGear = new MyMethodInvokeGear();
         resultGear.setMethod(method);
         resultGear.setMyMethodHandler(methodHandler);
-        resultGear.setParameterArrays(myMethodParameters);
+        resultGear.setParameterArray(myMethodParameters);
         myMethodInvokeGearMap.put(url, resultGear);
         return resultGear;
     }
