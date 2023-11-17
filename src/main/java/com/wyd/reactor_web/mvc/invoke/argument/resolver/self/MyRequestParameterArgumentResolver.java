@@ -1,5 +1,7 @@
 package com.wyd.reactor_web.mvc.invoke.argument.resolver.self;
 
+import cn.hutool.core.util.StrUtil;
+import com.wyd.reactor_web.annotation.MyRequestParam;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
@@ -23,8 +25,18 @@ import static com.wyd.reactor_web.mvc.util.ConvertUtil.*;
 public class MyRequestParameterArgumentResolver implements  MyHandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MyMethodParameter parameter) {
+        /*MyRequestParam*/
         Annotation[] annotations = parameter.getAnnotations();
-        return annotations == null || annotations.length == 0;
+        if (annotations == null || annotations.length == 0) {
+            return true;
+        } else {
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof MyRequestParam) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     @Override
@@ -33,7 +45,8 @@ public class MyRequestParameterArgumentResolver implements  MyHandlerMethodArgum
         NativeWebRequest nativeWebRequest = convertFullHttpRequestToNativeWebRequest(httpRequest);
         ServletRequest servletRequest = convertFullHttpRequestToServletRequest(httpRequest);
 
-        String parameterName = parameter.getParameterName();
+        String parameterName = getParameterName(parameter);
+
         String parameterValue = nativeWebRequest.getParameter(parameterName);
         Class<?> parameterClass = parameter.getParameterClass();
         // 如果是基本类型，则取出来 String 类型转换后返回
@@ -46,6 +59,18 @@ public class MyRequestParameterArgumentResolver implements  MyHandlerMethodArgum
         return target;
     }
 
-
+    private String getParameterName(MyMethodParameter parameter) {
+        // 获取参数名称
+        String parameterName = StrUtil.isNotBlank(parameter.getParameterName()) ? parameter.getParameterName() : null;
+        if (StrUtil.isBlank(parameterName)) {
+            Annotation[] annotations = parameter.getAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof MyRequestParam) {
+                    parameterName = ((MyRequestParam) annotation).value();
+                }
+            }
+        }
+        return parameterName;
+    }
 
 }
