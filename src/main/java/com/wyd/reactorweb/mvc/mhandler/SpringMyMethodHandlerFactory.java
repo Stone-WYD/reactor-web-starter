@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.wyd.reactorweb.mvc.util.MapperUtil.getPathSet;
+import static com.wyd.reactorweb.util.MapperUtil.getPathSet;
 
 /**
  * @program: reactor_web

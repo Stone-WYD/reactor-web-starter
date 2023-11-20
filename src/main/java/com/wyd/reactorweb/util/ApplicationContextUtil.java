@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.autil;
+package com.wyd.reactorweb.util;
 
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.beans.BeansException;

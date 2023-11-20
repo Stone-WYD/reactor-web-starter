@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.constants;
+package com.wyd.reactorweb.constant;
 
 /**
  * @program: reactor_web

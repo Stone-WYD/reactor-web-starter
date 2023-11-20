@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.mvc.util;
+package com.wyd.reactorweb.util;
 
 import com.wyd.reactorweb.mvc.invoke.request.MyNativeWebRequest;
 import com.wyd.reactorweb.mvc.invoke.request.MyHttpServletRequest;
@@ -19,7 +19,7 @@ import java.util.*;
  * @author: Stone
  * @create: 2023-11-17 15:14
  **/
-public class ConvertUtil {
+public class ConvertUtils {
 
     public static Object convertStringToPrimitive(Class<?> primitiveType, String value) {
         if (primitiveType == int.class || primitiveType == Integer.class) {

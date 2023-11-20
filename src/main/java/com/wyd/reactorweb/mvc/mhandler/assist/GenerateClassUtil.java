@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.wyd.reactorweb.constants.AsmConstants.MYINVOKE;
+import static com.wyd.reactorweb.constant.AsmConstants.MYINVOKE;
 
 /**
  * @program: reactor_web

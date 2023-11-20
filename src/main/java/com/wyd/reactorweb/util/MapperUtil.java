@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.mvc.util;
+package com.wyd.reactorweb.util;
 
 import cn.hutool.core.util.StrUtil;
 import com.wyd.reactorweb.annotation.MyRequestMapping;
