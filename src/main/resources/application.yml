@@ -8,9 +8,3 @@
 #  server:
 #    port: 8888
 
-# 封装起来给其他项目使用，添加配置时会有提示
-myreact:
-  enable: ${myreact.enable}
-  server:
-    port: ${myreact.server.port}
-

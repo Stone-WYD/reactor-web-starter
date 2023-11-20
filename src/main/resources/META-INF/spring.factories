@@ -1,2 +1,3 @@
 #-----------starter ????------------
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.wyd.reactor_web.config.ReactWebConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.wyd.reactor_web.config.ReactWebConfig,\
+  com.wyd.reactor_web.config.entity.EnableConfig
