@@ -8,6 +8,7 @@ import com.wyd.reactor_web.mvc.invoke.argument.resolver.self.MyRequestParameterA
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactor_web.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactor_web.mvc.invoke.processor.SpringInvokePostProcessorContainer;
+import com.wyd.reactor_web.mvc.listeners.MyInitListener;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
@@ -28,6 +29,15 @@ import org.springframework.context.annotation.Import;
 @Configuration
 public class ReactWebConfig {
 
+    /**
+    * @Description: 在容器刷新完成后，进行一些内容的初始化
+    * @Author: Stone
+    * @Date: 2023/11/20
+    */
+    @Bean
+    public MyInitListener myInitListener() {
+        return new MyInitListener();
+    }
 
     @Bean
     public DelayAopOrderBeanFactoryPostProcessor delayAopOrderBeanFactoryPostProcessor() {
