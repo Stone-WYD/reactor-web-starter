@@ -1,0 +1,9 @@
+package com.wyd.reactorweb.annotation.param;
+
+import java.lang.annotation.*;
+
+@Target({ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface MyReqeustBody {
+}

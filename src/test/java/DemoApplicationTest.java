@@ -1,8 +1,8 @@
-import com.wyd.reactor_web.MySpringApplication;
-import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
-import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodHandler;
-import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
-import com.wyd.reactor_web.mvc.mhandler.entity.MyMethodParameter;
+import com.wyd.reactorweb.MySpringApplication;
+import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodHandlerFactory;
+import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodHandler;
+import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodParameterFactory;
+import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodParameter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
