@@ -9,6 +9,7 @@ import com.wyd.reactorweb.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactorweb.mvc.invoke.processor.SpringInvokePostProcessorContainer;
 import com.wyd.reactorweb.mvc.listeners.MyInitListener;
+import com.wyd.reactorweb.mvc.listeners.MyNettyStartListener;
 import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactorweb.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodParameterFactory;
@@ -37,6 +38,16 @@ public class ReactWebConfig {
     @Bean
     public MyInitListener myInitListener() {
         return new MyInitListener();
+    }
+
+    /**
+    * @Description: 等到 bean 单例都初始化完成时再启动 netty 服务
+    * @Author: Stone
+    * @Date: 2023/11/20
+    */
+    @Bean
+    public MyNettyStartListener myNettyStartListener() {
+        return new MyNettyStartListener();
     }
 
     @Bean

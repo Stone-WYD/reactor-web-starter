@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.server.WebServerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -32,12 +31,7 @@ public class NettyServer implements WebServerFactory {
     @Resource
     private HttpServerHandlerInitial httpServerHandlerInitial;
 
-    @PostConstruct
-    public void init(){
-        new Thread(this::start).start();
-    }
-
-    private void start(){
+    public void start(){
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
         try{
