@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @create: 2023-11-17 18:22
  **/
 @Data
-@ConfigurationProperties(prefix = "mynetty.server")
+@ConfigurationProperties(prefix = "myreact.server")
 public class ServerConfig {
 
     private Integer port;

@@ -12,6 +12,7 @@ import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodHandlerFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactor_web.mvc.mhandler.SpringMyMethodParameterFactory;
 import com.wyd.reactor_web.mvc.mhandler.assist.MyMethodInvokeGearFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Import;
  * @author: Stone
  * @create: 2023-11-13 18:19
  **/
+@ConditionalOnProperty(name = "myreact.enable", havingValue = "true")
 @Import(ServerRunConfig.class)
 @Configuration
 public class ReactWebConfig {

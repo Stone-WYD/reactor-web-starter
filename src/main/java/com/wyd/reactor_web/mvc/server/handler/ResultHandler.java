@@ -6,7 +6,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-import org.springframework.stereotype.Component;
 
 /**
  * @program: reactor_web
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
  * @create: 2023-11-07 09:03
  **/
 @ChannelHandler.Sharable
-@Component
 public class ResultHandler extends ChannelOutboundHandlerAdapter {
 
     @Override

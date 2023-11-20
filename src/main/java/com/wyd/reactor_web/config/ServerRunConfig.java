@@ -3,7 +3,9 @@ package com.wyd.reactor_web.config;
 import com.wyd.reactor_web.autil.ApplicationContextUtil;
 import com.wyd.reactor_web.config.entity.ServerConfig;
 import com.wyd.reactor_web.mvc.server.NettyServer;
+import com.wyd.reactor_web.mvc.server.handler.HttpServerBusinessHandler;
 import com.wyd.reactor_web.mvc.server.handler.HttpServerHandlerInitial;
+import com.wyd.reactor_web.mvc.server.handler.ResultHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +21,16 @@ public class ServerRunConfig {
     @Bean
     public ServerConfig serverConfig() {
         return new ServerConfig();
+    }
+
+    @Bean
+    public HttpServerBusinessHandler httpServerBusinessHandler() {
+        return new HttpServerBusinessHandler();
+    }
+
+    @Bean
+    public ResultHandler resultHandler() {
+        return new ResultHandler();
     }
 
     @Bean
