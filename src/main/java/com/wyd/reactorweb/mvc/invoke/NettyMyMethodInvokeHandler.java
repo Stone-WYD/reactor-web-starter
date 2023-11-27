@@ -56,6 +56,13 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         // 组合模式：准备方法调用参数
         for (int i = 0; i < myMethodParameters.length; i++) {
             MyMethodParameter myMethodParameter = myMethodParameters[i];
+
+            if (myMethodParameter.getParameterClass() == ctx.getClass()) {
+                // 如果传参是要 ChannelHandlerContext，则直接传入
+                parameters[i] = ctx;
+                continue;
+            }
+
             if (argumentResolver.supportsParameter(myMethodParameter)) {
                 Object o = argumentResolver.resolveArgument(myMethodParameter, null, httpRequest, binderFactory);
                 parameters[i] = o;
