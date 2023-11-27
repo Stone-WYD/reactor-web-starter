@@ -1,9 +1,9 @@
-package com.wyd.reactorweb.design.reactor.service.impl;
+package com.wyd.reactorweb.test.reactor.demo.service.impl;
 
 import com.wyd.reactorweb.common.AjaxResult;
 import com.wyd.reactorweb.design.reactor.core.AsynReceptResult;
-import com.wyd.reactorweb.design.reactor.demo.SendInfo;
-import com.wyd.reactorweb.design.reactor.service.RemoteMessageSendService;
+import com.wyd.reactorweb.test.reactor.demo.SendInfo;
+import com.wyd.reactorweb.test.reactor.demo.service.RemoteMessageSendService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

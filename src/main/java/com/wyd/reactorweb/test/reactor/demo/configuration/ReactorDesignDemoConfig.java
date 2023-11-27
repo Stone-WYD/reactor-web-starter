@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.design.reactor.demo.configuration;
+package com.wyd.reactorweb.test.reactor.demo.configuration;
 
 import cn.hutool.json.JSONUtil;
 import com.google.common.cache.Cache;
@@ -8,8 +8,8 @@ import com.wyd.reactorweb.design.reactor.core.AsynReceptResult;
 import com.wyd.reactorweb.design.reactor.core.AsynRemoteChannel;
 import com.wyd.reactorweb.design.reactor.core.AsynRemoteServiceProxy;
 import com.wyd.reactorweb.design.reactor.core.ChannelContext;
-import com.wyd.reactorweb.design.reactor.demo.SendInfo;
-import com.wyd.reactorweb.design.reactor.service.RemoteMessageSendService;
+import com.wyd.reactorweb.test.reactor.demo.SendInfo;
+import com.wyd.reactorweb.test.reactor.demo.service.RemoteMessageSendService;
 import com.wyd.reactorweb.design.reactor.worker.AppWorker;
 import com.wyd.reactorweb.design.reactor.worker.NetWorker;
 import org.springframework.context.annotation.Bean;

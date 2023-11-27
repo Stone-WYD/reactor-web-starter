@@ -30,8 +30,9 @@ public class AsynRemoteChannel<T> {
     // 是否启动
     private boolean start = false;
 
-    // 缓存结果，此处示例是单机，所以使用了本地缓存，实际情况如果不是单机，需要考虑其他方案
-    final Cache<String, ChannelContext<T>> channelContextMap = CacheBuilder
+    // 缓存结果，此处示例是单机，所以使用了本地缓存，实际情况如果不是单机，需要考虑其他方案。因为是
+    // static ，所以这个缓存是所有 channel 公用的，因此插入时需要注意 key 要与业务关联且唯一
+    final static Cache<String, ChannelContext> channelContextMap = CacheBuilder
             .newBuilder()
             // 设置 cache 的初始大小为 100（要合理设置该值）
             .initialCapacity(100)
@@ -44,8 +45,10 @@ public class AsynRemoteChannel<T> {
 
 
     private void startReact() {
-        // TODO: 2023/8/2 疲劳处理，这里是个while true的循环，应该使用阻塞方法进行一些优化
+        // 疲劳处理
         while(true){
+            // 1.被调用方在没有返回时应该等待结果的产生，从而使得此处的方法阻塞在此。
+            // 2.serviceProxy 建议使用 dubbo 等 rpc 框架进行方法调用，从而使得此方法阻塞时不会占用线程资源
             AsynReceptResult<Map<String, AjaxResult<T>>> asynReceptResult =
                     serviceProxy.requestReceipt();
             // 未能获取到结果
@@ -71,7 +74,6 @@ public class AsynRemoteChannel<T> {
                 eventDispatcher.dispatch(new ResultRenderEvent(storeContext));
             }
         }
-
     }
 
     public void start() {
@@ -116,8 +118,12 @@ public class AsynRemoteChannel<T> {
         serviceProxy = asynRemoteServiceProxy;
     }
 
+    /**
+    * @Description: channel 的驱动方法
+    * @Author: Stone
+    * @Date: 2023/11/27
+    */
     public void walk(ChannelContext channelContext){
-        // channel 的驱动方法
         eventDispatcher.dispatch(new PrepareEvent(channelContext));
     }
 }
