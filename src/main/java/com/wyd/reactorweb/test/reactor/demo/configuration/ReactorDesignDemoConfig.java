@@ -43,16 +43,6 @@ public class ReactorDesignDemoConfig {
             // 构建 cache 实例
             .build();
 
-    @Bean
-    public NetWorker netWorker() {
-        return new NetWorker();
-    }
-
-    @Bean
-    public AppWorker appWorker() {
-        return new AppWorker();
-    }
-
 
 
     /**
