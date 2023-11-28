@@ -1,3 +1,4 @@
+/*
 package com.wyd.reactorweb.test.reactor.demo.configuration;
 
 import cn.hutool.json.JSONUtil;
@@ -18,20 +19,24 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+*/
 /**
  * @program: TMSP
  * @description: reactor设计模式中用到的配置类，进行一些bean的配置。当前配置类只是个 demo，实际使用时可以根据该 demo 进行配置
  * @author: Stone
  * @create: 2023-07-31 10:09
- **/
+ **//*
+
 @Configuration
 public class ReactorDesignDemoConfig {
 
-    /**
+    */
+/**
     * @Description: 缓存结果，需要结果的时候可以在此处获取
     * @Author: Stone
     * @Date: 2023/11/27
-    */
+    *//*
+
     public final static Cache<String, Boolean> localCache = CacheBuilder
             .newBuilder()
             // 设置 cache 的初始大小为 100（要合理设置该值）
@@ -45,11 +50,13 @@ public class ReactorDesignDemoConfig {
 
 
 
-    /**
+    */
+/**
     * @Description: 多个 channel 可以共用同样的一组 netWorker、appWorker
     * @Author: Stone
     * @Date: 2023/11/27
-    */
+    *//*
+
     @Bean
     public AsynRemoteChannel remoteMessageChannel(RemoteMessageSendService remoteMessageSendService,
                                                   NetWorker netWorker, AppWorker appWorker){
@@ -104,3 +111,4 @@ public class ReactorDesignDemoConfig {
     }
 
 }
+*/
