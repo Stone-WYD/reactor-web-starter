@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.design.reactor.factory;
+package com.wyd.reactorweb.design.reactor.factory.component;
 
 import com.wyd.reactorweb.design.reactor.core.ChannelContext;
 

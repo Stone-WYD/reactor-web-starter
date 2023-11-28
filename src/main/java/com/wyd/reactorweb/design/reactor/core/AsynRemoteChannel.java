@@ -2,7 +2,7 @@ package com.wyd.reactorweb.design.reactor.core;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.wyd.reactorweb.common.AjaxResult;
-import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGain;
+import com.wyd.reactorweb.design.reactor.factory.component.ResultStorageAndGain;
 import com.wyd.reactorweb.design.reactor.pipeline.Handler;
 import com.wyd.reactorweb.design.reactor.pipeline.event.PrepareEvent;
 import com.wyd.reactorweb.design.reactor.pipeline.event.RemoteRequestEvent;
@@ -28,12 +28,7 @@ public class AsynRemoteChannel<T> {
     // 是否启动
     private boolean start = false;
 
-    private ResultStorageAndGain resultStorageAndGain;
-
-    public AsynRemoteChannel(AsynRemoteServiceProxy<T> serviceProxy, ResultStorageAndGain resultStorageAndGain) {
-        this.serviceProxy = serviceProxy;
-        this.resultStorageAndGain = resultStorageAndGain;
-    }
+    private final ResultStorageAndGain resultStorageAndGain;
 
     private void startReact() {
         // 疲劳处理
@@ -92,9 +87,10 @@ public class AsynRemoteChannel<T> {
         start = true;
     }
 
-    public AsynRemoteChannel(NetWorker netWorker, AppWorker appWorker) {
+    public AsynRemoteChannel(NetWorker netWorker, AppWorker appWorker, ResultStorageAndGain resultStorageAndGain) {
         eventDispatcher.setNetWorker(netWorker);
         eventDispatcher.setAppWorker(appWorker);
+        this.resultStorageAndGain = resultStorageAndGain;
     }
 
     public void addPrepareHandler(Handler handler) {
@@ -108,6 +104,7 @@ public class AsynRemoteChannel<T> {
     public void bindRemoteService(AsynRemoteServiceProxy<T> asynRemoteServiceProxy) {
         serviceProxy = asynRemoteServiceProxy;
     }
+
 
     /**
     * @Description: channel 的驱动方法

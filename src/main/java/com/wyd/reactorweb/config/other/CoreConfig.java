@@ -1,8 +1,8 @@
 package com.wyd.reactorweb.config.other;
 
 import com.wyd.reactorweb.config.property.CoreProperties;
-import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGain;
-import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGainFromLocal;
+import com.wyd.reactorweb.design.reactor.factory.component.ResultStorageAndGain;
+import com.wyd.reactorweb.design.reactor.factory.component.ResultStorageAndGainFromLocal;
 import com.wyd.reactorweb.design.reactor.worker.AppWorker;
 import com.wyd.reactorweb.design.reactor.worker.NetWorker;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

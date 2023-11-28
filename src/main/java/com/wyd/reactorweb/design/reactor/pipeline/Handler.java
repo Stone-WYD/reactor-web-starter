@@ -9,7 +9,11 @@ import com.wyd.reactorweb.design.reactor.core.ChannelContext;
  * @author: Stone
  * @create: 2023-07-31 10:54
  **/
-@FunctionalInterface
+// @FunctionalInterface
 public interface Handler {
     void handle(ChannelContext channelContext);
+
+    default Integer order() {
+        return Integer.MIN_VALUE;
+    }
 }

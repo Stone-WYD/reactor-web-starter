@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.design.reactor.factory;
+package com.wyd.reactorweb.design.reactor.factory.component;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
