@@ -1,9 +1,8 @@
 package com.wyd.reactorweb.design.reactor.core;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.wyd.reactorweb.common.AjaxResult;
+import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGain;
 import com.wyd.reactorweb.design.reactor.pipeline.Handler;
 import com.wyd.reactorweb.design.reactor.pipeline.event.PrepareEvent;
 import com.wyd.reactorweb.design.reactor.pipeline.event.RemoteRequestEvent;
@@ -13,7 +12,6 @@ import com.wyd.reactorweb.design.reactor.worker.NetWorker;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @program: TMSP
@@ -30,19 +28,12 @@ public class AsynRemoteChannel<T> {
     // 是否启动
     private boolean start = false;
 
-    // 缓存结果，此处示例是单机，所以使用了本地缓存，实际情况如果不是单机，需要考虑其他方案。因为是
-    // static ，所以这个缓存是所有 channel 公用的，因此插入时需要注意 key 要与业务关联且唯一
-    final static Cache<String, ChannelContext> channelContextMap = CacheBuilder
-            .newBuilder()
-            // 设置 cache 的初始大小为 100（要合理设置该值）
-            .initialCapacity(100)
-            // 设置并发数为5，即同一时间最多只有5个线程可以向cache中写入
-            .concurrencyLevel(5)
-            // 写入 1 分钟后过期
-            .expireAfterWrite(1, TimeUnit.MINUTES)
-            // 构建 cache 实例
-            .build();
+    private ResultStorageAndGain resultStorageAndGain;
 
+    public AsynRemoteChannel(AsynRemoteServiceProxy<T> serviceProxy, ResultStorageAndGain resultStorageAndGain) {
+        this.serviceProxy = serviceProxy;
+        this.resultStorageAndGain = resultStorageAndGain;
+    }
 
     private void startReact() {
         // 疲劳处理
@@ -63,12 +54,12 @@ public class AsynRemoteChannel<T> {
             // 对结果中的数据进行处理
             for (Map.Entry<String, AjaxResult<T>> entry : asynReceptResult.getData().entrySet()) {
                 String callId = entry.getKey();
-                ChannelContext<T> storeContext = channelContextMap.getIfPresent(callId);
+                ChannelContext<T> storeContext = resultStorageAndGain.getResult(callId);
                 if (storeContext == null){
                     // 失去有效性，忽略
                     continue;
                 }
-                channelContextMap.invalidate(callId);
+                resultStorageAndGain.invalidResult(callId);
                 storeContext.setAsynReceptResult(entry.getValue());
                 // 发布结果解析事件，交给 工作线程 的处理器处理
                 eventDispatcher.dispatch(new ResultRenderEvent(storeContext));
@@ -93,7 +84,7 @@ public class AsynRemoteChannel<T> {
                     AjaxResult<String> rpcResult = serviceProxy.call(channelContext);
                     //此时远程服务不会返回计算结果，而是先异步返回了此次调用的callId，在后面要获取真正结果时使用 callId 从批量结果中获取真正的结果放入到channelContext中
                     channelContext.setCallId(rpcResult.getData());
-                    channelContextMap.put(rpcResult.getData(), channelContext);
+                    resultStorageAndGain.storageResult(rpcResult.getData(), channelContext);
                 }
         );
         Thread eventloop = new Thread(this::startReact);

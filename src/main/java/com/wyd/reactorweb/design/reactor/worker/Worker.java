@@ -2,7 +2,7 @@ package com.wyd.reactorweb.design.reactor.worker;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.wyd.reactorweb.config.property.CoreProperties;
+import com.wyd.reactorweb.config.property.core.WorkerProperties;
 import com.wyd.reactorweb.util.MyThreadPoolExecutor;
 
 import java.util.concurrent.LinkedBlockingDeque;
@@ -20,7 +20,7 @@ public abstract class Worker {
 
     protected final ThreadPoolExecutor appExecutor;
 
-    public Worker(CoreProperties.WorkerProperties workerProperties) {
+    public Worker(WorkerProperties workerProperties) {
 
         String nameformat = StrUtil.isBlank(workerProperties.getThreadNamePrefix()) ?
                 getThreadFactoryNameFormat() : workerProperties.getThreadNamePrefix() + "-%d";

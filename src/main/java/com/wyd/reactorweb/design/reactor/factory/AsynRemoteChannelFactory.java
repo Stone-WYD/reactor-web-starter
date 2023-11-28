@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.design.reactor;
+package com.wyd.reactorweb.design.reactor.factory;
 
 import lombok.Data;
 

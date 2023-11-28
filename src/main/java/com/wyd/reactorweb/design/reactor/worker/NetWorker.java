@@ -1,6 +1,6 @@
 package com.wyd.reactorweb.design.reactor.worker;
 
-import com.wyd.reactorweb.config.property.CoreProperties;
+import com.wyd.reactorweb.config.property.core.WorkerProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.wyd.reactorweb.constant.CoreConstants.NETWORKER_NAME_FORMAT;
@@ -14,7 +14,7 @@ import static com.wyd.reactorweb.constant.CoreConstants.NETWORKER_NAME_FORMAT;
 @Slf4j
 public class NetWorker extends Worker{
 
-    public NetWorker(CoreProperties.WorkerProperties workerProperties) {
+    public NetWorker(WorkerProperties workerProperties) {
         super(workerProperties);
     }
 

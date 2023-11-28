@@ -1,8 +1,11 @@
 package com.wyd.reactorweb.config.other;
 
 import com.wyd.reactorweb.config.property.CoreProperties;
+import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGain;
+import com.wyd.reactorweb.design.reactor.factory.ResultStorageAndGainFromLocal;
 import com.wyd.reactorweb.design.reactor.worker.AppWorker;
 import com.wyd.reactorweb.design.reactor.worker.NetWorker;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +35,14 @@ public class CoreConfig {
         return new AppWorker(coreProperties.getAppWorker());
     }
 
-
+    // 默认创建
+    @Bean
+    // TODO: 2023/11/28 如此使用有待确认
+    @ConditionalOnProperty(name = "myreact.core.result-storage.type",
+            havingValue = "${default.myreact.core.result-storage-type}", matchIfMissing = true)
+    public ResultStorageAndGain defaultResultStorageAndGain() {
+        return new ResultStorageAndGainFromLocal();
+    }
 
 
 }

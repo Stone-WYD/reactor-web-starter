@@ -1,6 +1,6 @@
 package com.wyd.reactorweb.design.reactor.worker;
 
-import com.wyd.reactorweb.config.property.CoreProperties;
+import com.wyd.reactorweb.config.property.core.WorkerProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.wyd.reactorweb.constant.CoreConstants.APPWORKER_NAME_FORMAT;
@@ -15,7 +15,7 @@ import static com.wyd.reactorweb.constant.CoreConstants.APPWORKER_NAME_FORMAT;
 public class AppWorker extends Worker {
 
 
-    public AppWorker(CoreProperties.WorkerProperties workerProperties) {
+    public AppWorker(WorkerProperties workerProperties) {
         super(workerProperties);
     }
 

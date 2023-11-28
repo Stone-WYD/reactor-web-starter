@@ -10,4 +10,5 @@ public class CoreConstants {
     public static String APPWORKER_NAME_FORMAT = "AppWorker-worker-%d";
     public static String NETWORKER_NAME_FORMAT = "NetWorker-worker-%d";
 
+    public static String RESULT_STORAGE_LOCAL_TYPE = "local";
 }
