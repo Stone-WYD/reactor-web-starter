@@ -1,7 +1,7 @@
-package com.wyd.reactorweb.config;
+package com.wyd.reactorweb.config.other;
 
 import com.wyd.reactorweb.util.ApplicationContextUtil;
-import com.wyd.reactorweb.config.entity.ServerProperties;
+import com.wyd.reactorweb.config.property.ServerProperties;
 import com.wyd.reactorweb.mvc.server.NettyServer;
 import com.wyd.reactorweb.mvc.server.handler.HttpServerBusinessHandler;
 import com.wyd.reactorweb.mvc.server.handler.HttpServerHandlerInitial;

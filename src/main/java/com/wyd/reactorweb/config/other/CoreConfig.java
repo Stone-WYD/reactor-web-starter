@@ -1,6 +1,6 @@
-package com.wyd.reactorweb.config;
+package com.wyd.reactorweb.config.other;
 
-import com.wyd.reactorweb.config.entity.CoreProperties;
+import com.wyd.reactorweb.config.property.CoreProperties;
 import com.wyd.reactorweb.design.reactor.worker.AppWorker;
 import com.wyd.reactorweb.design.reactor.worker.NetWorker;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

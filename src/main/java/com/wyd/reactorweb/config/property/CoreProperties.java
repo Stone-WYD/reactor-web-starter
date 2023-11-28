@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.config.entity;
+package com.wyd.reactorweb.config.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

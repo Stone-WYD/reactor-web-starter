@@ -1,6 +1,6 @@
 package com.wyd.reactorweb.mvc.server;
 
-import com.wyd.reactorweb.config.entity.ServerProperties;
+import com.wyd.reactorweb.config.property.ServerProperties;
 import com.wyd.reactorweb.mvc.server.handler.HttpServerHandlerInitial;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

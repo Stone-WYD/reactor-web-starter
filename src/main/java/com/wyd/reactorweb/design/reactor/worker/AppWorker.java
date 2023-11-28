@@ -1,6 +1,6 @@
 package com.wyd.reactorweb.design.reactor.worker;
 
-import com.wyd.reactorweb.config.entity.CoreProperties;
+import com.wyd.reactorweb.config.property.CoreProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.wyd.reactorweb.constant.CoreConstants.APPWORKER_NAME_FORMAT;
