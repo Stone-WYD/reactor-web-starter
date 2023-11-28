@@ -1,5 +1,6 @@
 package com.wyd.reactorweb.config;
 
+import com.wyd.reactorweb.config.entity.CoreProperties;
 import com.wyd.reactorweb.mvc.invoke.NettyMyMethodInvokeHandler;
 import com.wyd.reactorweb.mvc.invoke.argument.binder.SpringMyWebDataBinderFactory;
 import com.wyd.reactorweb.mvc.invoke.argument.resolver.MyHandlerMethodArgumentResolverComposite;
@@ -11,10 +12,11 @@ import com.wyd.reactorweb.mvc.invoke.processor.SpringInvokePostProcessorContaine
 import com.wyd.reactorweb.mvc.listeners.MyInitListener;
 import com.wyd.reactorweb.mvc.listeners.MyNettyStartListener;
 import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodHandlerFactory;
-import com.wyd.reactorweb.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodParameterFactory;
+import com.wyd.reactorweb.mvc.mhandler.assist.DelayAopOrderBeanFactoryPostProcessor;
 import com.wyd.reactorweb.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,8 +28,9 @@ import org.springframework.context.annotation.Import;
  * @create: 2023-11-13 18:19
  **/
 @ConditionalOnProperty(name = "myreact.enable", havingValue = "true")
-@Import(ServerRunConfig.class)
 @Configuration
+@Import(ServerRunConfig.class)
+@EnableConfigurationProperties({CoreProperties.class})
 public class ReactWebConfig {
 
     /**

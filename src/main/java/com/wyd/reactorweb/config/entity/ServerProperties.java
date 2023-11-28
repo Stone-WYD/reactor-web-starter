@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @Data
 @ConfigurationProperties(prefix = "myreact.server")
-public class ServerConfig {
+public class ServerProperties {
 
     private Integer port;
 

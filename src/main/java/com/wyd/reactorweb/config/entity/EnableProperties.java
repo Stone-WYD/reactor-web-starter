@@ -11,6 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  **/
 @Data
 @ConfigurationProperties(prefix = "myreact")
-public class EnableConfig {
+public class EnableProperties {
     private boolean enable;
 }
