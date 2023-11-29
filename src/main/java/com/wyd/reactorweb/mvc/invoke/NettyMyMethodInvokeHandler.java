@@ -1,5 +1,6 @@
 package com.wyd.reactorweb.mvc.invoke;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyMethodInvokeHandler;
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyWebDataBinderFactory;
@@ -81,9 +82,11 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         // 方法调用
         if (handleFlag) {
             Object result = myMethodHandler.invoke(path, parameters);
-            context.setInvokeResult(result);
             // TODO: 2023/11/17 测试用
-            ctx.write(result);
+            if (BeanUtil.isNotEmpty(result)) {
+                context.setInvokeResult(result);
+                ctx.write(result);
+            }
         }
 
         // 后处理器方法：方法调用后的操作

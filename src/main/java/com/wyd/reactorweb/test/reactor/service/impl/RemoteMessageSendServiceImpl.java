@@ -10,10 +10,7 @@ import com.wyd.reactorweb.test.reactor.service.RemoteMessageSendService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -82,16 +79,23 @@ public class RemoteMessageSendServiceImpl implements RemoteMessageSendService {
     public AsynReceptResult<Map<String, AjaxResult<Boolean>>> getResultList() {
         Map<String, AjaxResult<Boolean>> resultData = new HashMap<>();
         Set<Map.Entry<String, Boolean>> results;
-        synchronized (resultMap) {
-            results = resultMap.entrySet();
-            resultMap.clear();
-        }
-        for (Map.Entry<String, Boolean> result : results) {
+
+        Iterator<Map.Entry<String, Boolean>> iterator = resultMap.entrySet().iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Map.Entry<String, Boolean> result = iterator.next();
             String callId = result.getKey();
             Boolean value = result.getValue();
             AjaxResult<Boolean> oneResult = new AjaxResult<>();
             oneResult.setData(value);
             resultData.put(callId, oneResult);
+            // 删除这个元素
+            iterator.remove();
+            i++;
+            if (i > 10) {
+                // 一次最多操作十个元素
+                break;
+            }
         }
 
         // 返回结果
