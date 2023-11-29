@@ -1,5 +1,6 @@
 package com.wyd.reactorweb.mvc.mhandler.assist;
 
+import cn.hutool.core.util.StrUtil;
 import com.wyd.reactorweb.annotation.MyRequestMapping;
 import org.springframework.asm.ClassWriter;
 import org.springframework.asm.Label;
@@ -130,12 +131,13 @@ public class GenerateClassUtil {
         }
         // 获取返回值类型
         Class<?> returnType = method.getReturnType();
-        if (returnType.isPrimitive()) return getNeededName(returnType);
-        String returnTypeStr;
-        if (returnType.equals(Void.class)) {
-            returnTypeStr = "V";
-        } else returnTypeStr = "L" + returnType.getName().replace('.', '/') + ";";
-
+        String returnTypeStr = null;
+        if (returnType.isPrimitive() && returnType!= Void.class) returnTypeStr = getNeededName(returnType);
+        if (StrUtil.isBlank(returnTypeStr)) {
+            if (returnType.equals(Void.class)) {
+                returnTypeStr = "V";
+            } else returnTypeStr = "L" + returnType.getName().replace('.', '/') + ";";
+        }
         // 构建方法描述符字符串
         return "(" + parameterTypesStr + ")" + returnTypeStr;
     }
