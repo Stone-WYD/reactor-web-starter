@@ -57,7 +57,7 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         for (int i = 0; i < myMethodParameters.length; i++) {
             MyMethodParameter myMethodParameter = myMethodParameters[i];
 
-            if (myMethodParameter.getParameterClass() == ctx.getClass()) {
+            if (ChannelHandlerContext.class.isAssignableFrom(myMethodParameter.getParameterClass())) {
                 // 如果传参是要 ChannelHandlerContext，则直接传入
                 parameters[i] = ctx;
                 continue;

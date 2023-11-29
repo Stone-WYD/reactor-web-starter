@@ -35,7 +35,6 @@ public class GenerateClassUtil {
         // 获取 url 和 方法对应信息存到 map 中
         fillUrlToMethodMap(invokeClass, urlToMethodMap);
         if (urlToMethodMap.size() == 0)  return null;
-        // 生成字节码文件
         return doGenerate(invokeClass, generateClassName, urlToMethodMap);
     }
 
@@ -83,6 +82,10 @@ public class GenerateClassUtil {
             }
             invoke.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                     targetClass.getName().replace('.', '/'), method.getName(), getMethodDescriptor(method), false);
+            // 如果返回类型是空，需要返回 null
+            if (void.class.isAssignableFrom(method.getReturnType())) {
+                invoke.visitInsn(Opcodes.ACONST_NULL);
+            }
             invoke.visitInsn(Opcodes.ARETURN);
 
             invoke.visitLabel(lastIf);
@@ -93,7 +96,6 @@ public class GenerateClassUtil {
         invoke.visitLdcInsn("无此方法");
         invoke.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
         invoke.visitInsn(Opcodes.ATHROW);
-        // TODO: 2023/11/14 此处设置最大栈深度的代码需要更多测试以保证准确性
         invoke.visitMaxs(maxStack, 4);
         invoke.visitEnd();
 
@@ -132,11 +134,9 @@ public class GenerateClassUtil {
         // 获取返回值类型
         Class<?> returnType = method.getReturnType();
         String returnTypeStr = null;
-        if (returnType.isPrimitive() && returnType!= Void.class) returnTypeStr = getNeededName(returnType);
+        if (returnType.isPrimitive()) returnTypeStr = getNeededName(returnType);
         if (StrUtil.isBlank(returnTypeStr)) {
-            if (returnType.equals(Void.class)) {
-                returnTypeStr = "V";
-            } else returnTypeStr = "L" + returnType.getName().replace('.', '/') + ";";
+            returnTypeStr = "L" + returnType.getName().replace('.', '/') + ";";
         }
         // 构建方法描述符字符串
         return "(" + parameterTypesStr + ")" + returnTypeStr;
@@ -151,6 +151,7 @@ public class GenerateClassUtil {
             if (type == double.class) return "D";
             if (type == char.class) return "C";
             if (type == boolean.class) return "Z";
+            if (type == void.class) return "V";
             return "";
         } else return type.getName();
     }
