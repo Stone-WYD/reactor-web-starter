@@ -1,6 +1,5 @@
 package com.wyd.reactorweb.config.property.core;
 
-import lombok.Data;
 
 /**
  * @program: reactor-web-starter
@@ -8,13 +7,27 @@ import lombok.Data;
  * @author: Stone
  * @create: 2023-11-28 14:32
  **/
-@Data
 public class ResultStorage {
 
     private String type;
 
     private LocalProperties localProperties;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalProperties getLocalProperties() {
+        return localProperties;
+    }
+
+    public void setLocalProperties(LocalProperties localProperties) {
+        this.localProperties = localProperties;
+    }
 
     public static class LocalProperties {
 

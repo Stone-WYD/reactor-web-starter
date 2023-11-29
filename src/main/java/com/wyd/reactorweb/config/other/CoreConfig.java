@@ -1,11 +1,12 @@
 package com.wyd.reactorweb.config.other;
 
 import com.wyd.reactorweb.config.property.CoreProperties;
+import com.wyd.reactorweb.design.reactor.factory.SpringAsynRemoteChannelBuilderFactory;
+import com.wyd.reactorweb.design.reactor.factory.SpringAsynRemoteChannelInitializationFactory;
 import com.wyd.reactorweb.design.reactor.factory.component.ResultStorageAndGain;
 import com.wyd.reactorweb.design.reactor.factory.component.ResultStorageAndGainFromLocal;
 import com.wyd.reactorweb.design.reactor.worker.AppWorker;
 import com.wyd.reactorweb.design.reactor.worker.NetWorker;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,11 +39,20 @@ public class CoreConfig {
     // 默认创建
     @Bean
     // TODO: 2023/11/28 如此使用有待确认
-    @ConditionalOnProperty(name = "myreact.core.result-storage.type",
-            havingValue = "${default.myreact.core.result-storage-type}", matchIfMissing = true)
+    /*@ConditionalOnProperty(name = "myreact.core.result-storage.type",
+            havingValue = "${default.myreact.core.result-storage-type}", matchIfMissing = true)*/
     public ResultStorageAndGain defaultResultStorageAndGain() {
         return new ResultStorageAndGainFromLocal();
     }
 
+    @Bean
+    public SpringAsynRemoteChannelBuilderFactory springAsynRemoteChannelBuilderFactory() {
+        return new SpringAsynRemoteChannelBuilderFactory();
+    }
+
+    @Bean
+    public SpringAsynRemoteChannelInitializationFactory springAsynRemoteChannelInitializationFactory() {
+        return new SpringAsynRemoteChannelInitializationFactory();
+    }
 
 }

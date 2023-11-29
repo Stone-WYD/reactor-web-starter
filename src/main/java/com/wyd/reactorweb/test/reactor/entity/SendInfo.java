@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.test.reactor.demo;
+package com.wyd.reactorweb.test.reactor.entity;
 
 
 import com.wyd.reactorweb.common.AjaxResult;

@@ -52,6 +52,7 @@ public class SpringAsynRemoteChannelBuilderFactory {
         if (CollectionUtil.isNotEmpty(renderHandlerList)) {
             renderOrderList.forEach(asynRemoteChannel::addResultRenderHandler);
         }
+        asynRemoteChannel.start();
         channelMap.put(beanName, asynRemoteChannel);
     }
 

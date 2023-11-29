@@ -1,10 +1,11 @@
-package com.wyd.reactorweb.test;
+package com.wyd.reactorweb.test.mvc;
 
 import com.wyd.reactorweb.annotation.MyRequestMapping;
 import com.wyd.reactorweb.annotation.param.MyReqeustBody;
 import com.wyd.reactorweb.annotation.param.MyRequestParam;
 import com.wyd.reactorweb.common.AjaxResult;
 import com.wyd.reactorweb.common.AjaxResultUtil;
+import com.wyd.reactorweb.test.mvc.entity.Names;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;

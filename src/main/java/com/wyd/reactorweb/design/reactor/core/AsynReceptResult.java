@@ -8,9 +8,9 @@ package com.wyd.reactorweb.design.reactor.core;
  **/
 public class AsynReceptResult<T> {
 
-    private String errMsg;
-    private boolean isSuccess;
-    private T data;
+    private final String errMsg;
+    private final boolean isSuccess;
+    private final T data;
 
     public boolean isSuccess() {
         return isSuccess;
@@ -22,5 +22,11 @@ public class AsynReceptResult<T> {
 
     public T getData() {
         return data;
+    }
+
+    public AsynReceptResult(String errMsg, boolean isSuccess, T data) {
+        this.errMsg = errMsg;
+        this.isSuccess = isSuccess;
+        this.data = data;
     }
 }

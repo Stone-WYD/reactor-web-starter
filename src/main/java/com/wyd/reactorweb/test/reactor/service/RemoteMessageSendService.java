@@ -1,9 +1,9 @@
-package com.wyd.reactorweb.test.reactor.demo.service;
+package com.wyd.reactorweb.test.reactor.service;
 
 
 import com.wyd.reactorweb.common.AjaxResult;
 import com.wyd.reactorweb.design.reactor.core.AsynReceptResult;
-import com.wyd.reactorweb.test.reactor.demo.SendInfo;
+import com.wyd.reactorweb.test.reactor.entity.SendInfo;
 
 import java.util.Map;
 

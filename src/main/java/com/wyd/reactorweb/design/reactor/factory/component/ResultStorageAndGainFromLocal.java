@@ -25,9 +25,24 @@ public class ResultStorageAndGainFromLocal implements ResultStorageAndGain {
 
     @PostConstruct
     public void init() {
+        // 没有配置相关内容，按默认配置
+        if (coreProperties.getResultStorage() == null || coreProperties.getResultStorage().getLocalProperties() == null) {
+            channelContextMap = CacheBuilder
+                    .newBuilder()
+                    // 设置 cache 的初始大小为 100（要合理设置该值）
+                    .initialCapacity(100)
+                    // 设置并发数为5，即同一时间最多只有5个线程可以向cache中写入
+                    .concurrencyLevel(5)
+                    // 写入 1 分钟后过期
+                    .expireAfterWrite(1, TimeUnit.MINUTES)
+                    // 构建 cache 实例
+                    .build();
+            return;
+        }
         // 获取配置内容
         ResultStorage resultStorage = coreProperties.getResultStorage();
-        ResultStorage.LocalProperties localProperties = resultStorage.getLocalProperties();
+        ResultStorage.LocalProperties localProperties = resultStorage.getLocalProperties() == null ?
+                new ResultStorage.LocalProperties() : resultStorage.getLocalProperties();
         // 装配 channelContextMap
         channelContextMap = CacheBuilder
                 .newBuilder()

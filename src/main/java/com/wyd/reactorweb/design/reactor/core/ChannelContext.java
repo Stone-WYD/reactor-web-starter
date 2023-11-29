@@ -3,8 +3,8 @@ package com.wyd.reactorweb.design.reactor.core;
 import com.wyd.reactorweb.common.AjaxResult;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: TMSP
@@ -18,12 +18,12 @@ public class ChannelContext<T>{
     /**
     * 驱动服务的参数，用于存放传参
     * */
-    private Map<String, Object> paramMap = new HashMap<>();
+    private Map<String, Object> paramMap = new ConcurrentHashMap<>();
 
     /**
      * 上下文参数，用户存放中间处理结果
      * */
-    private Map<String, Object> contextMap = new HashMap<>();
+    private Map<String, Object> contextMap = new ConcurrentHashMap<>();
 
     /**
      * 远程调用id

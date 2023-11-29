@@ -1,4 +1,4 @@
-package com.wyd.reactorweb.test;
+package com.wyd.reactorweb.test.mvc.entity;
 
 import lombok.Data;
 

@@ -70,13 +70,13 @@ public class SpringAsynRemoteChannelInitializationFactory implements Instantiati
                 AsynRemoteServiceProxy asynRemoteServiceProxy = ApplicationContextUtil.getBeanOfType(serviceClassType);
                 // 2. 获取 prepare handler 列表
                 Class<? extends Handler> prepareClassType = classInfo.getPrepareClassType();
-                List<? extends Handler> prepareHandlerList = null;
+                List<? extends Handler> prepareHandlerList = new ArrayList<>();
                 if (prepareClassType != null) {
                     prepareHandlerList = ApplicationContextUtil.getBeansOfType(prepareClassType);
                 }
                 // 3. 获取 render handler 列表
                 Class<? extends Handler> renderClassType = classInfo.getRenderClassType();
-                List<? extends Handler> renderHandlerList = null;
+                List<? extends Handler> renderHandlerList = new ArrayList<>();
                 if (renderClassType != null) {
                     renderHandlerList = ApplicationContextUtil.getBeansOfType(renderClassType);
                 }
