@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  **/
 public abstract class Worker {
 
-    protected final ThreadPoolExecutor appExecutor;
+    protected final ThreadPoolExecutor executor;
 
     public Worker(WorkerProperties workerProperties) {
 
@@ -34,7 +34,7 @@ public abstract class Worker {
                 processors * 2 : workerProperties.getMaximumPoolSize();
 
         // TODO: 2023/11/28 超过核心线程数的线程的存活时间和其他配置暂时固定写死
-        appExecutor = new MyThreadPoolExecutor(processors,
+        executor = new MyThreadPoolExecutor(processors,
                 maximumPoolSize,
                 0L,
                 TimeUnit.MINUTES,

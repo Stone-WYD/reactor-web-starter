@@ -19,7 +19,7 @@ public class NetWorker extends Worker{
     }
 
     public void subTask(Runnable runnable) {
-        appExecutor.submit(runnable);
+        executor.submit(runnable);
     }
 
     @Override
