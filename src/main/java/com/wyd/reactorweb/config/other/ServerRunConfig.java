@@ -21,11 +21,6 @@ import org.springframework.context.annotation.Configuration;
 public class ServerRunConfig {
 
     @Bean
-    public ServerProperties serverProperties() {
-        return new ServerProperties();
-    }
-
-    @Bean
     public HttpServerBusinessHandler httpServerBusinessHandler() {
         return new HttpServerBusinessHandler();
     }

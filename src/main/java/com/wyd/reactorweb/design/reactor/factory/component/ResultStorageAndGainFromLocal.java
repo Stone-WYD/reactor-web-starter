@@ -3,11 +3,10 @@ package com.wyd.reactorweb.design.reactor.factory.component;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wyd.reactorweb.config.property.CoreProperties;
-import com.wyd.reactorweb.config.property.core.ResultStorage;
+import com.wyd.reactorweb.config.property.core.ResultStorageProperties;
 import com.wyd.reactorweb.design.reactor.core.ChannelContext;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,8 +19,11 @@ public class ResultStorageAndGainFromLocal implements ResultStorageAndGain {
 
     private Cache<String, ChannelContext> channelContextMap;
 
-    @Resource
     private CoreProperties coreProperties;
+
+    public ResultStorageAndGainFromLocal(CoreProperties coreProperties) {
+        this.coreProperties = coreProperties;
+    }
 
     @PostConstruct
     public void init() {
@@ -33,17 +35,14 @@ public class ResultStorageAndGainFromLocal implements ResultStorageAndGain {
                     .initialCapacity(100)
                     // 设置并发数为5，即同一时间最多只有5个线程可以向cache中写入
                     .concurrencyLevel(5)
-                    // 写入 1 分钟后过期
-                    // TODO: 2023/11/30 测试用
-                    .expireAfterWrite(100, TimeUnit.MINUTES)
+                    // 写入 10 分钟后过期
+                    .expireAfterWrite(10, TimeUnit.MINUTES)
                     // 构建 cache 实例
                     .build();
             return;
         }
         // 获取配置内容
-        ResultStorage resultStorage = coreProperties.getResultStorage();
-        ResultStorage.LocalProperties localProperties = resultStorage.getLocalProperties() == null ?
-                new ResultStorage.LocalProperties() : resultStorage.getLocalProperties();
+        ResultStorageProperties.LocalProperties localProperties = coreProperties.getResultStorage().getLocalProperties();
         // 装配 channelContextMap
         channelContextMap = CacheBuilder
                 .newBuilder()

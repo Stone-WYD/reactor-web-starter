@@ -1,5 +1,7 @@
 package com.wyd.reactorweb.config.property.core;
 
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @program: reactor-web-starter
@@ -7,27 +9,13 @@ package com.wyd.reactorweb.config.property.core;
  * @author: Stone
  * @create: 2023-11-28 14:32
  **/
-public class ResultStorage {
+@Data
+@ConfigurationProperties(prefix = "myreact.core.result-storage")
+public class ResultStorageProperties {
 
     private String type;
 
     private LocalProperties localProperties;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public LocalProperties getLocalProperties() {
-        return localProperties;
-    }
-
-    public void setLocalProperties(LocalProperties localProperties) {
-        this.localProperties = localProperties;
-    }
 
     public static class LocalProperties {
 
@@ -64,4 +52,6 @@ public class ResultStorage {
             this.expireAfterWriteMinutes = expireAfterWriteMinutes;
         }
     }
+
+
 }

@@ -41,7 +41,7 @@ public class ReactController {
 
     @MyRequestMapping(value = "/test2")
     public void test2(ChannelHandlerContext ctx) {
-        System.out.println("test2运行~");
+        // System.out.println("test2运行~");
         AsynRemoteChannel channel = builderFactory.getAsynRemoteChannel("messageSendServiceAsynAdaptor2");
         // 简单测试一下
         ChannelContext<Boolean> context = new ChannelContext<>();

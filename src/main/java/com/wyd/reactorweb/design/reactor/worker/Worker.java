@@ -2,7 +2,7 @@ package com.wyd.reactorweb.design.reactor.worker;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.wyd.reactorweb.config.property.core.WorkerProperties;
+import com.wyd.reactorweb.config.property.CoreProperties;
 import com.wyd.reactorweb.util.MyThreadPoolExecutor;
 
 import java.util.concurrent.LinkedBlockingDeque;
@@ -20,7 +20,7 @@ public abstract class Worker {
 
     protected final ThreadPoolExecutor executor;
 
-    public Worker(WorkerProperties workerProperties) {
+    public Worker(CoreProperties.WorkerProperties workerProperties) {
 
         String nameformat = StrUtil.isBlank(workerProperties.getThreadNamePrefix()) ?
                 getThreadFactoryNameFormat() : workerProperties.getThreadNamePrefix() + "-%d";
@@ -32,13 +32,14 @@ public abstract class Worker {
                 Runtime.getRuntime().availableProcessors() : workerProperties.getCorePoolSize();
         int maximumPoolSize = workerProperties.getMaximumPoolSize() == null ?
                 processors * 2 : workerProperties.getMaximumPoolSize();
-
-        // TODO: 2023/11/28 超过核心线程数的线程的存活时间和其他配置暂时固定写死
+        int keepLiveMinutes = workerProperties.getKeepLiveMinutes() == null ?
+                0 : workerProperties.getKeepLiveMinutes();
+        // 可配置内容暂定如此
         executor = new MyThreadPoolExecutor(processors,
                 maximumPoolSize,
-                0L,
+                keepLiveMinutes,
                 TimeUnit.MINUTES,
-                new LinkedBlockingDeque<>(1000),
+                new LinkedBlockingDeque<>(),
                 threadFactory,
                 new ThreadPoolExecutor.AbortPolicy());
     }
