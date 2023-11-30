@@ -34,7 +34,8 @@ public class ResultStorageAndGainFromLocal implements ResultStorageAndGain {
                     // 设置并发数为5，即同一时间最多只有5个线程可以向cache中写入
                     .concurrencyLevel(5)
                     // 写入 1 分钟后过期
-                    .expireAfterWrite(1, TimeUnit.MINUTES)
+                    // TODO: 2023/11/30 测试用
+                    .expireAfterWrite(100, TimeUnit.MINUTES)
                     // 构建 cache 实例
                     .build();
             return;

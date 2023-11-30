@@ -38,6 +38,9 @@ public class AsynRemoteChannel<T> {
             AsynReceptResult<Map<String, AjaxResult<T>>> asynReceptResult =
                     serviceProxy.requestReceipt();
             // 未能获取到结果
+            if (asynReceptResult == null) {
+                continue;
+            }
             if (!asynReceptResult.isSuccess()){
                 log.error(asynReceptResult.getErrMsg());
                 continue;
