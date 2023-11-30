@@ -2,9 +2,24 @@
 #spring:
 #  main:
 #    web-application-type: none
-
 #myreact:
 #  enable: true
 #  server:
 #    port: 8888
-
+#  core:
+#    result-storage:
+#      type: local
+#      local-properties:
+#        concurrency-level: 5
+#        expire-after-write-minutes: 30
+#        inital-capacity: 2000
+#    net-worker:
+#      core-pool-size: 5
+#      maximum-pool-size: 10
+#      keep-live-minutes: 10
+#      thread-name-prefix: net-worker
+#    app-worker:
+#      core-pool-size: 5
+#      maximum-pool-size: 10
+#      keep-live-minutes: 10
+#      thread-name-prefix: app-worker
