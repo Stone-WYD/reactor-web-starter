@@ -1,4 +1,4 @@
-# 测试用
+## 测试用
 #spring:
 #  main:
 #    web-application-type: none
@@ -6,6 +6,8 @@
 #  enable: true
 #  server:
 #    port: 8888
+#    worker-loop-group-thread-num: 2
+#    boss-loop-group-thread-num: 5
 #  core:
 #    result-storage:
 #      type: local

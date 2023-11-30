@@ -36,8 +36,8 @@ public class ServerRunConfig {
     }
 
     @Bean
-    public NettyServer nettyServer() {
-        return new NettyServer();
+    public NettyServer nettyServer(ServerProperties serverProperties, HttpServerHandlerInitial httpServerHandlerInitial) {
+        return new NettyServer(serverProperties, httpServerHandlerInitial);
     }
 
     @Bean

@@ -15,4 +15,8 @@ public class ServerProperties {
 
     private Integer port;
 
+    private Integer bossLoopGroupThreadNum;
+
+    private Integer workerLoopGroupThreadNum;
+
 }

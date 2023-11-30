@@ -12,8 +12,6 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.WebServerFactory;
 
-import javax.annotation.Resource;
-
 /**
  * @program: spring-wyd
  * @description: netty 服务器
@@ -23,15 +21,24 @@ import javax.annotation.Resource;
 @Slf4j
 public class NettyServer implements WebServerFactory {
 
-    @Resource
-    private ServerProperties serverProperties;
+    private final ServerProperties serverProperties;
 
-    @Resource
-    private HttpServerHandlerInitial httpServerHandlerInitial;
+    private final HttpServerHandlerInitial httpServerHandlerInitial;
+
+    public NettyServer(ServerProperties serverProperties, HttpServerHandlerInitial httpServerHandlerInitial) {
+        this.serverProperties = serverProperties;
+        this.httpServerHandlerInitial = httpServerHandlerInitial;
+    }
 
     public void start(){
-        NioEventLoopGroup boss = new NioEventLoopGroup();
-        NioEventLoopGroup worker = new NioEventLoopGroup();
+        int bossNum = serverProperties.getBossLoopGroupThreadNum() == null ?
+                0 : serverProperties.getBossLoopGroupThreadNum();
+        int workerNum = serverProperties.getWorkerLoopGroupThreadNum() == null ?
+                0 : serverProperties.getWorkerLoopGroupThreadNum();
+
+        NioEventLoopGroup boss = new NioEventLoopGroup(bossNum);
+        NioEventLoopGroup worker = new NioEventLoopGroup(workerNum);
+
         try{
             ServerBootstrap bootstrap = new ServerBootstrap()
                     .channel(NioServerSocketChannel.class)
