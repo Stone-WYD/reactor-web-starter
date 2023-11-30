@@ -9,7 +9,6 @@ import com.wyd.reactorweb.test.reactor.entity.SendInfo;
 import com.wyd.reactorweb.test.reactor.service.RemoteMessageSendService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -25,44 +24,9 @@ public class RemoteMessageSendServiceImpl2 implements RemoteMessageSendService {
 
     private final Snowflake snowflake = new Snowflake();
 
-    private final Map<String, Boolean> resultMap = new ConcurrentHashMap<>();
-
     private final Map<String, SendInfo> paramMap = new ConcurrentHashMap<>();
 
     private final Queue<String> callIdQueue = new ConcurrentLinkedQueue<>();
-
-    @PostConstruct
-    public void handleBusiness() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    System.out.println("休眠时出现了异常，不过不影响，继续执行...");
-                }
-
-                // 每隔 100 ms 处理一次业务
-                if (callIdQueue.isEmpty()) {
-                    // 没有需要处理的业务
-                    continue;
-                }
-                String callId = callIdQueue.poll();
-                if (StrUtil.isNotBlank(callId)) {
-                    SendInfo sendInfo = paramMap.remove(callId);
-                    String content = sendInfo.getContent();
-                    // 根据内容判断结果
-                    if (StrUtil.isNotBlank(content)) {
-                        if (content.contains("reactor")) {
-                            System.out.println("结果处理了，包含reactor信息...");
-                            resultMap.put(callId, true);
-                            continue;
-                        }
-                    }
-                }
-                resultMap.put(callId, false);
-            }
-        }).start();
-    }
 
     @Override
     public AjaxResult<String> send(SendInfo sendInfo) {
@@ -77,28 +41,44 @@ public class RemoteMessageSendServiceImpl2 implements RemoteMessageSendService {
 
     @Override
     public AsynReceptResult<Map<String, AjaxResult<Boolean>>> getResultList() {
-        Map<String, AjaxResult<Boolean>> resultData = new HashMap<>();
-        Set<Map.Entry<String, Boolean>> results;
+        if (callIdQueue.isEmpty()) {
+            // 没有需要处理的业务
+            return null;
+        }
+        List<String> callIds = new ArrayList<>();
+        do {
+            String callId = callIdQueue.poll();
+            callIds.add(callId);
+        } while (callIds.size() <= 10 && !callIdQueue.isEmpty());
+        List<SendInfo> sendInfos = new ArrayList<>();
+        callIds.forEach(callId -> sendInfos.add(paramMap.remove(callId)));
 
-        Iterator<Map.Entry<String, Boolean>> iterator = resultMap.entrySet().iterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            Map.Entry<String, Boolean> result = iterator.next();
-            String callId = result.getKey();
-            Boolean value = result.getValue();
-            AjaxResult<Boolean> oneResult = new AjaxResult<>();
-            oneResult.setData(value);
-            resultData.put(callId, oneResult);
-            // 删除这个元素
-            iterator.remove();
-            i++;
-            if (i > 10) {
-                // 一次最多操作十个元素
-                break;
-            }
+        // 获取结果
+        Map<String, AjaxResult<Boolean>> resultData = new HashMap<>();
+
+        for (int i = 0; i < callIds.size(); i++) {
+            String callId = callIds.get(i);
+            SendInfo sendInfo = sendInfos.get(i);
+            AjaxResult<Boolean> result = handleBusiness(sendInfo);
+            resultData.put(callId, result);
         }
 
         // 返回结果
         return new AsynReceptResult(null, true, resultData);
+    }
+
+    private AjaxResult<Boolean> handleBusiness(SendInfo sendInfo) {
+        String content = sendInfo.getContent();
+        AjaxResult<Boolean> result = new AjaxResult<>();
+        // 根据内容判断结果
+        if (StrUtil.isNotBlank(content)) {
+            if (content.contains("reactor")) {
+                System.out.println("结果处理了，包含reactor信息...");
+                result.setData(true);
+                return AjaxResultUtil.getTrueAjaxResult(result);
+            }
+        }
+        result.setData(false);
+        return AjaxResultUtil.getTrueAjaxResult(result);
     }
 }
