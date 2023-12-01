@@ -6,7 +6,6 @@ import com.wyd.reactorweb.config.property.CoreProperties;
 import com.wyd.reactorweb.config.property.core.ResultStorageProperties;
 import com.wyd.reactorweb.design.reactor.core.ChannelContext;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,16 +16,9 @@ import java.util.concurrent.TimeUnit;
  **/
 public class ResultStorageAndGainFromLocal implements ResultStorageAndGain {
 
-    private Cache<String, ChannelContext> channelContextMap;
-
-    private CoreProperties coreProperties;
+    private final Cache<String, ChannelContext> channelContextMap;
 
     public ResultStorageAndGainFromLocal(CoreProperties coreProperties) {
-        this.coreProperties = coreProperties;
-    }
-
-    @PostConstruct
-    public void init() {
         // 没有配置相关内容，按默认配置
         if (coreProperties.getResultStorage() == null || coreProperties.getResultStorage().getLocalProperties() == null) {
             channelContextMap = CacheBuilder

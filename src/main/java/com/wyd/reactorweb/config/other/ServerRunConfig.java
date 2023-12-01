@@ -1,9 +1,10 @@
 package com.wyd.reactorweb.config.other;
 
+import com.wyd.reactorweb.mvc.server.handler.business.HttpServerBusinessHandler;
 import com.wyd.reactorweb.util.ApplicationContextUtil;
 import com.wyd.reactorweb.config.property.ServerProperties;
 import com.wyd.reactorweb.mvc.server.NettyServer;
-import com.wyd.reactorweb.mvc.server.handler.HttpServerBusinessHandler;
+import com.wyd.reactorweb.mvc.server.handler.HttpServerBusinessHandlerInitial;
 import com.wyd.reactorweb.mvc.server.handler.HttpServerHandlerInitial;
 import com.wyd.reactorweb.mvc.server.handler.ResultHandler;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -21,8 +22,8 @@ import org.springframework.context.annotation.Configuration;
 public class ServerRunConfig {
 
     @Bean
-    public HttpServerBusinessHandler httpServerBusinessHandler() {
-        return new HttpServerBusinessHandler();
+    public HttpServerHandlerInitial httpServerHandlerInitial() {
+        return new HttpServerHandlerInitial();
     }
 
     @Bean
@@ -31,13 +32,20 @@ public class ServerRunConfig {
     }
 
     @Bean
-    public HttpServerHandlerInitial httpServerHandlerInitial() {
-        return new HttpServerHandlerInitial();
+    public HttpServerBusinessHandlerInitial httpServerBusinessHandlerInitial() {
+        return new HttpServerBusinessHandlerInitial();
     }
 
     @Bean
-    public NettyServer nettyServer(ServerProperties serverProperties, HttpServerHandlerInitial httpServerHandlerInitial) {
-        return new NettyServer(serverProperties, httpServerHandlerInitial);
+    public HttpServerBusinessHandler httpServerBusinessHandler() {
+        return new HttpServerBusinessHandler();
+    }
+
+    @Bean
+    public NettyServer nettyServer(ServerProperties serverProperties,
+                                   HttpServerHandlerInitial httpServerHandlerInitial,
+                                   HttpServerBusinessHandlerInitial httpServerBusinessHandlerInitial) {
+        return new NettyServer(serverProperties, httpServerHandlerInitial, httpServerBusinessHandlerInitial);
     }
 
     @Bean

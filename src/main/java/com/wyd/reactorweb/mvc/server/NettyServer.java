@@ -1,6 +1,7 @@
 package com.wyd.reactorweb.mvc.server;
 
 import com.wyd.reactorweb.config.property.ServerProperties;
+import com.wyd.reactorweb.mvc.server.handler.HttpServerBusinessHandlerInitial;
 import com.wyd.reactorweb.mvc.server.handler.HttpServerHandlerInitial;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -25,9 +26,12 @@ public class NettyServer implements WebServerFactory {
 
     private final HttpServerHandlerInitial httpServerHandlerInitial;
 
-    public NettyServer(ServerProperties serverProperties, HttpServerHandlerInitial httpServerHandlerInitial) {
+    private final HttpServerBusinessHandlerInitial businessHandlerInitial;
+
+    public NettyServer(ServerProperties serverProperties, HttpServerHandlerInitial httpServerHandlerInitial, HttpServerBusinessHandlerInitial businessHandlerInitial) {
         this.serverProperties = serverProperties;
         this.httpServerHandlerInitial = httpServerHandlerInitial;
+        this.businessHandlerInitial = businessHandlerInitial;
     }
 
     public void start(){
@@ -47,7 +51,9 @@ public class NettyServer implements WebServerFactory {
                         @Override
                         protected void initChannel(NioSocketChannel channel) {
                             channel.pipeline().addLast(new LoggingHandler());
-                            channel.pipeline().addLast(httpServerHandlerInitial);}
+                            channel.pipeline().addLast(httpServerHandlerInitial);
+                            channel.pipeline().addLast(businessHandlerInitial);
+                        }
                     });
             ChannelFuture channelFuture = bootstrap.bind(serverProperties.getPort()).sync();
             channelFuture.channel().closeFuture().sync();
