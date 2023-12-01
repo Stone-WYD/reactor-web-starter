@@ -33,6 +33,7 @@ public class MyRequestBodyArgumentResolver implements MyHandlerMethodArgumentRes
 
     @Override
     public Object resolveArgument(MyMethodParameter parameter, ModelAndViewContainer mavContainer, FullHttpRequest httpRequest, MyWebDataBinderFactory binderFactory) {
+        // TODO: 2023/12/1 对请求体内容进行序列化，此处对日期等类型需要进行特殊处理，目前暂时直接用 fastjson 进行序列化
         String content = httpRequest.content().toString(CharsetUtil.UTF_8);
         return JSON.parseObject(content, parameter.getParameterClass());
     }

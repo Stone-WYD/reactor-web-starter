@@ -79,7 +79,6 @@ public class SpringMyWebDataBinderFactory implements MyWebDataBinderFactory, Ins
                 if (factory == null) {
                     FormattingConversionService service = new FormattingConversionService();
                     // 在容器中获取转换器
-                    // TODO: 2023/11/20 ApplicationContextUtil 一般是程序运行过程中使用，此处在项目启动中引用可能无法获取所有转换类，需要优化
                     List<Formatter> formatterList = ApplicationContextUtil.getBeansOfType(Formatter.class);
                     for (Formatter<?> formatter : formatterList) {
                         service.addFormatter(formatter);
