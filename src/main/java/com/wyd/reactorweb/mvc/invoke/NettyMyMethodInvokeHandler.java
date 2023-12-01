@@ -9,6 +9,7 @@ import com.wyd.reactorweb.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodHandler;
 import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodInvokeGear;
 import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodParameter;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 
@@ -58,11 +59,20 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         for (int i = 0; i < myMethodParameters.length; i++) {
             MyMethodParameter myMethodParameter = myMethodParameters[i];
 
+            if (Channel.class.isAssignableFrom(myMethodParameter.getParameterClass())) {
+                // 如果传参是要 Channel，从 ctx 中获取后传入
+                parameters[i] = ctx.channel();
+                continue;
+            }
+
+            /*
+            // 不再给 controller 传入 ctx
             if (ChannelHandlerContext.class.isAssignableFrom(myMethodParameter.getParameterClass())) {
                 // 如果传参是要 ChannelHandlerContext，则直接传入
                 parameters[i] = ctx;
                 continue;
             }
+            */
 
             if (argumentResolver.supportsParameter(myMethodParameter)) {
                 Object o = argumentResolver.resolveArgument(myMethodParameter, null, httpRequest, binderFactory);
@@ -73,7 +83,8 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         }
 
         InvokePostPrcessorContext context = new InvokePostPrcessorContext();
-        context.setMyMethodHandler(myMethodHandler);
+        context.setReturnClass(invokeGear.getReturnClass());
+        context.setChannelHandlerContext(ctx);
         context.setMyMethodParameters(myMethodParameters);
         context.setParameters(parameters);
         // 后处理器方式：方法调用前的操作
@@ -82,10 +93,8 @@ public class NettyMyMethodInvokeHandler implements MyMethodInvokeHandler {
         // 方法调用
         if (handleFlag) {
             Object result = myMethodHandler.invoke(path, parameters);
-            // TODO: 2023/11/17 测试用
             if (BeanUtil.isNotEmpty(result)) {
                 context.setInvokeResult(result);
-                ctx.write(result);
             }
         }
 

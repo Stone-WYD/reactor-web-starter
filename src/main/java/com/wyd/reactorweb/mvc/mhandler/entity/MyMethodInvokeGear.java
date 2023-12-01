@@ -17,6 +17,8 @@ public class MyMethodInvokeGear {
 
     private MyMethodParameter[] parameterArray;
 
+    private Class<?> returnClass;
+
     private Method method;
 
 }

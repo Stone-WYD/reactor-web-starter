@@ -2,7 +2,6 @@ package com.wyd.reactorweb.mvc.invoke.processor;
 
 import com.wyd.reactorweb.design.postprocessor.BasePostProcessor;
 import com.wyd.reactorweb.mvc.invoke.InvokePostPrcessorContext;
-import com.wyd.reactorweb.mvc.invoke.processor.impl.InvokePostProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
@@ -15,6 +14,7 @@ import java.util.List;
  * @author: Stone
  * @create: 2023-11-17 17:07
  **/
+
 public class SpringInvokePostProcessorContainer implements BeanPostProcessor {
 
     private final List<InvokePostProcessor> postProcessors = new ArrayList<>();
