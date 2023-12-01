@@ -14,7 +14,6 @@ import java.util.List;
  * @author: Stone
  * @create: 2023-11-17 17:07
  **/
-
 public class SpringInvokePostProcessorContainer implements BeanPostProcessor {
 
     private final List<InvokePostProcessor> postProcessors = new ArrayList<>();

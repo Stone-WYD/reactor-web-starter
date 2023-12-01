@@ -8,6 +8,7 @@ import com.wyd.reactorweb.mvc.invoke.argument.resolver.self.MyRequestParameterAr
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyHandlerMethodArgumentResolver;
 import com.wyd.reactorweb.mvc.invoke.interfaces.MyWebDataBinderFactory;
 import com.wyd.reactorweb.mvc.invoke.processor.SpringInvokePostProcessorContainer;
+import com.wyd.reactorweb.mvc.invoke.processor.impl.AjaxResultHandleInvokePostProcessor;
 import com.wyd.reactorweb.mvc.listeners.MyInitListener;
 import com.wyd.reactorweb.mvc.listeners.MyNettyStartListener;
 import com.wyd.reactorweb.mvc.mhandler.SpringMyMethodHandlerFactory;
@@ -83,6 +84,11 @@ public class MvcConfig {
     @Bean
     public MyWebDataBinderFactory binderFactory() {
         return new SpringMyWebDataBinderFactory();
+    }
+
+    @Bean
+    public AjaxResultHandleInvokePostProcessor ajaxResultHandleInvokePostProcessor() {
+        return new AjaxResultHandleInvokePostProcessor();
     }
 
     @Bean
