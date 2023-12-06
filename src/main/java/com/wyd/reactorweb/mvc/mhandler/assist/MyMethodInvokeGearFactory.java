@@ -7,6 +7,7 @@ import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodInvokeGear;
 import com.wyd.reactorweb.mvc.mhandler.entity.MyMethodParameter;
 import com.wyd.reactorweb.mvc.mhandler.interfaces.MyMethodHandlerFactory;
 import com.wyd.reactorweb.mvc.mhandler.interfaces.MyMethodParameterFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: Stone
  * @create: 2023-11-15 14:56
  **/
+@Slf4j
 public class MyMethodInvokeGearFactory {
 
     private final MyMethodHandlerFactory methodHandlerFactory;
@@ -59,7 +61,7 @@ public class MyMethodInvokeGearFactory {
             }
         }
         if (BeanUtil.isEmpty(methodHandler)) {
-            throw new RuntimeException("MyMethodInvokeGearFactory: 没有找到 url 对应的方法可以调用！");
+            throw new RuntimeException("MyMethodInvokeGearFactory: 因 methodHandler 为空而没有找到 url 对应的方法可以调用！url为" + url);
         }
         MyMethodParameter[] myMethodParameters = parameterMap.get(url);
         Method method = methodMap.get(url);

@@ -72,13 +72,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+        </dependency>-->
 
-        &lt;!&ndash; 日志框架  &ndash;&gt;
+        <!-- 日志框架  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!-- lombok -->
         <dependency>

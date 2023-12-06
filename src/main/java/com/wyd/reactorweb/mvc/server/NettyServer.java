@@ -6,6 +6,7 @@ import com.wyd.reactorweb.mvc.server.handler.HttpServerHandlerInitial;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -54,7 +55,14 @@ public class NettyServer implements WebServerFactory {
                             channel.pipeline().addLast(httpServerHandlerInitial);
                             channel.pipeline().addLast(businessHandlerInitial);
                         }
-                    });
+                    })
+                    // 临时存放已完成三次握手的请求的队列的最大长度。
+                    // 如果未设置或所设置的值小于1，Java将使用默认值50。
+                    // 如果大于队列的最大长度，请求会被拒绝
+                    .option(ChannelOption.SO_BACKLOG,2000)
+                    .childOption(ChannelOption.SO_KEEPALIVE,true)
+                    .childOption(ChannelOption.SO_RCVBUF, 65536) // 设置接收缓冲区大小
+                    .childOption(ChannelOption.SO_SNDBUF, 65536); // 设置发送缓冲区大小
             ChannelFuture channelFuture = bootstrap.bind(serverProperties.getPort()).sync();
             channelFuture.channel().closeFuture().sync();
         }catch ( Exception e){
