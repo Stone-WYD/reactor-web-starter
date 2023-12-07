@@ -21,6 +21,6 @@ public class AjaxResultHandleInvokePostProcessor implements InvokePostProcessor 
     @Override
     public void handleAfter(InvokePostPrcessorContext postContext) {
         ChannelHandlerContext ctx = postContext.getChannelHandlerContext();
-        ctx.write(postContext.getInvokeResult());
+        ctx.writeAndFlush(postContext.getInvokeResult());
     }
 }

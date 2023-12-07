@@ -19,4 +19,9 @@ public class ServerProperties {
 
     private Integer workerLoopGroupThreadNum;
 
+    private Integer businessThreadNum;
+
+    public void setBusinessThreadNum(Integer businessThreadNum) {
+        this.businessThreadNum = businessThreadNum;
+    }
 }
