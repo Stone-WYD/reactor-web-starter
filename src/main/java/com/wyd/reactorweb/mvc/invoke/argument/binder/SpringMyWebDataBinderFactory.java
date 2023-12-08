@@ -73,7 +73,7 @@ public class SpringMyWebDataBinderFactory implements MyWebDataBinderFactory, Ins
         }
     }
 
-    private void initInitializer() {
+    public void initInitializer() {
         if (factory == null) {
             synchronized (this) {
                 if (factory == null) {

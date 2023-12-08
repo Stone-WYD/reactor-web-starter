@@ -1,8 +1,9 @@
 package com.wyd.reactorweb.mvc.listeners;
 
-import com.wyd.reactorweb.util.ApplicationContextUtil;
+import com.wyd.reactorweb.mvc.invoke.argument.binder.SpringMyWebDataBinderFactory;
 import com.wyd.reactorweb.mvc.mhandler.assist.MyMethodInvokeGearFactory;
 import com.wyd.reactorweb.mvc.mhandler.interfaces.MyMethodParameterFactory;
+import com.wyd.reactorweb.util.ApplicationContextUtil;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
@@ -27,5 +28,9 @@ public class MyInitListener implements ApplicationListener<ContextRefreshedEvent
         for (String url : urlKeySet) {
             invokeGearFactory.getMyMethodInvokeGearByUrl(url);
         }
+
+        // 完成容器刷新后，从容器中获取 web 数据绑定工厂，进行一些初始化操作
+        SpringMyWebDataBinderFactory webDataBinderFactory = ApplicationContextUtil.getBeanOfType(SpringMyWebDataBinderFactory.class);
+        webDataBinderFactory.initInitializer();
     }
 }
